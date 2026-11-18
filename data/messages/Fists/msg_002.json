@@ -1,0 +1,23 @@
+{
+  "id": "msg_002",
+  "subject": "#общее",
+  "participants": ["shtanga", "sh0v", "rjjavii", "in3y", "pr4vyi", "lev4y4", "k0styashhhhka", "re_ey", "tiktik"],
+  "date": "2045-07-22",
+  "thread": [
+    { "sender": "lev4y4", "timestamp": "2045-07-22 19:40", "text": "кто будет жрать заказываю на всех" },
+    { "sender": "re_ey", "timestamp": "2045-07-22 19:41", "text": "лапшу" },
+    { "sender": "tiktik", "timestamp": "2045-07-22 19:42", "text": "пельмени и два энергетика. принесите сами я занят" },
+    { "sender": "in3y", "timestamp": "2045-07-22 19:43", "text": "мне ничего" },
+    { "sender": "lev4y4", "timestamp": "2045-07-22 19:43", "text": "ты три дня ничего" },
+    { "sender": "in3y", "timestamp": "2045-07-22 19:44", "text": "еда это для мяса" },
+    { "sender": "shtanga", "timestamp": "2045-07-22 19:45", "text": "мне две" },
+    { "sender": "lev4y4", "timestamp": "2045-07-22 19:45", "text": "две чего" },
+    { "sender": "shtanga", "timestamp": "2045-07-22 19:46", "text": "две" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-22 19:47", "text": "у него рта нет с весны. шов ему трубку поставил. возьми два супа, вольём" },
+    { "sender": "lev4y4", "timestamp": "2045-07-22 19:48", "text": "курьер в прошлый раз увидел штангу и обоссался на пороге. скажу оставить у ворот" },
+    { "sender": "re_ey", "timestamp": "2045-07-22 19:49", "text": "не говори. пусть заходит. мне скучно" },
+    { "sender": "sh0v", "timestamp": "2045-07-22 19:50", "text": "рэй, выключи вибру за столом" },
+    { "sender": "re_ey", "timestamp": "2045-07-22 19:51", "text": "я выключаю" },
+    { "sender": "sh0v", "timestamp": "2045-07-22 19:51", "text": "нихуя блять" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "msg_005",
+  "subject": "рука дергается",
+  "participants": [
+    "sh0v",
+    "k0styashhhhka"
+  ],
+  "date": "2045-07-27",
+  "thread": [
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-27 10:12", "text": "док у меня опять рука дёргается. ночью сама сжалась, я чуть стакан не раздавил" },
+    { "sender": "sh0v", "timestamp": "2045-07-27 10:40", "text": "приходи после обеда" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-27 10:41", "text": "это опасно?" },
+    { "sender": "sh0v", "timestamp": "2045-07-27 10:45", "text": "если сожмётся на чьей-то шее, то да" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-27 10:45", "text": "на своей?" },
+    { "sender": "sh0v", "timestamp": "2045-07-27 10:46", "text": "сказал же, приходи" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "msg_001",
+  "subject": "ави",
+  "participants": ["shtanga", "sh0v", "rjjavii", "in3y", "pr4vyi", "lev4y4", "k0styashhhhka", "re_ey", "tiktik"],
+  "date": "2045-07-19",
+  "thread": [
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-19 13:02", "text": "кто последний брал ави" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-19 13:02", "text": "там бак пустой и на сиденье какая-то хуйня липкая" },
+    { "sender": "re_ey", "timestamp": "2045-07-19 13:10", "text": "не я" },
+    { "sender": "tiktik", "timestamp": "2045-07-19 13:11", "text": "я из скала неделю не выходил, какая нахуй ави" },
+    { "sender": "shtanga", "timestamp": "2045-07-19 13:15", "text": "это не газировка" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-19 13:15", "text": "а что" },
+    { "sender": "shtanga", "timestamp": "2045-07-19 13:16", "text": "у гонка было много крови" },
+    { "sender": "re_ey", "timestamp": "2045-07-19 13:17", "text": "бля ахахах это же тот который мамку звал" },
+    { "sender": "rjjavii", "timestamp": "2045-07-19 13:20", "text": "бак я. заправлю вечером. сиденье сами отмывайте, я не уборщица" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-19 13:21", "text": "мне в 3 на пятую ехать за баблом. я в этом не поеду" },
+    { "sender": "rjjavii", "timestamp": "2045-07-19 13:22", "text": "подстели газету. мясо ты такое нежное" }
+  ]
+}

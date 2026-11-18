@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!--
+  Как менять:
+  - Срочная плашка: комментарий «СРОЧНО» ниже.
+  - Главная новость: блок «ГЛАВНАЯ НОВОСТЬ». Для фото положите рядом с этим файлом картинку lead.jpg
+  - Остальные новости: обычный текст внутри блоков, меняется прямо в файле.
+  - Форма «Вам есть что рассказать?» никуда ничего не отправляет: она показывает только номер обращения.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1f3a">
+<title>News42 — новости Найт-Сити</title>
+<meta name="description" content="News42: новости Найт-Сити, происшествия, корпорации, экономика, погода.">
+<style>
+:root{
+  --red:#d0021b; --red-dark:#a30015; --navy:#0b1f3a; --ink:#141414; --muted:#5c6168;
+  --line:#dcdde0; --soft:#f3f4f5; --white:#fff;
+  --serif:"PT Serif",Georgia,"Times New Roman",serif;
+  --sans:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --gutter:clamp(14px,3vw,32px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--white);color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover .hl,a.hl:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- Верхняя полоса ---------- */
+.topbar{background:var(--navy);color:#cfd7e3;font-size:14px}
+.topbar .wrap{display:flex;gap:20px;justify-content:space-between;align-items:center;height:36px}
+.topbar .right{display:flex;gap:20px}
+.topbar a:hover{color:#fff}
+.topbar .w{white-space:nowrap}
+
+/* ---------- Шапка ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:1px solid var(--line)}
+.bar{position:relative;display:flex;align-items:center;gap:28px;height:64px}
+.logo{display:flex;align-items:stretch;font:900 30px/1 var(--sans);letter-spacing:-.02em;margin-right:6px}
+.logo span{display:block;padding:7px 8px 6px;color:var(--ink)}
+.logo b{display:block;padding:7px 9px 6px;background:var(--red);color:#fff}
+nav{flex:1}
+nav ul{display:flex;gap:4px;list-style:none;flex-wrap:wrap}
+nav a{display:block;padding:8px 12px;font:600 16px var(--sans);color:#2a2e33;border-bottom:3px solid transparent;transition:border-color .15s,color .15s}
+nav a:hover{color:var(--red);border-color:var(--red)}
+.tip-link{padding:9px 16px;background:var(--red);color:#fff;font:700 15px var(--sans);transition:background .15s}
+.tip-link:hover{background:var(--red-dark)}
+.burger{display:none;width:44px;height:44px;background:none;border:1px solid var(--line);cursor:pointer;place-content:center;gap:5px}
+.burger i{display:block;width:20px;height:2px;background:var(--ink)}
+
+/* ---------- Срочно ---------- */
+.breaking{background:var(--red);color:#fff}
+.breaking .wrap{display:flex;align-items:center;gap:16px;min-height:48px;padding-top:6px;padding-bottom:6px}
+.breaking__tag{flex:none;display:flex;align-items:center;gap:8px;background:#fff;color:var(--red);padding:4px 10px;font:900 14px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--red);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+.breaking a{flex:1;font:700 18px/1.3 var(--sans)}
+.breaking a:hover{text-decoration:underline}
+.breaking time{flex:none;font-size:14px;opacity:.9}
+
+/* ---------- Общие ---------- */
+.tag{display:inline-block;font:700 13px/1 var(--sans);color:var(--red);text-transform:uppercase;letter-spacing:.04em}
+.meta{font-size:14px;color:var(--muted)}
+.meta .tag{margin-right:8px}
+.pic{position:relative;display:block;width:100%;aspect-ratio:16/10;overflow:hidden;background:#1d2733;color:rgba(255,255,255,.9)}
+.pic svg.g{position:absolute;left:50%;top:50%;width:34%;height:auto;max-height:60%;transform:translate(-50%,-50%);opacity:.9;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.c-corp{background:linear-gradient(135deg,#1b2430,#46323a)}
+.c-bio{background:linear-gradient(135deg,#1f4a43,#6aa08b)}
+.c-mil{background:linear-gradient(135deg,#2c3329,#6a6e4b)}
+.c-city{background:linear-gradient(135deg,#1c2c4d,#4b6a9a)}
+.c-eco{background:linear-gradient(135deg,#25303c,#4a6f66)}
+.c-sport{background:linear-gradient(135deg,#43241f,#a25a3a)}
+.c-wx{background:linear-gradient(135deg,#2c3340,#7a8493)}
+.sec-title{display:flex;align-items:center;gap:12px;margin:0 0 20px;font:900 22px var(--sans);text-transform:uppercase;letter-spacing:.01em}
+.sec-title::before{content:"";width:6px;height:24px;background:var(--red)}
+.sec-title a{margin-left:auto;font:600 15px var(--sans);text-transform:none;color:var(--red)}
+.sec-title a:hover{text-decoration:underline}
+.block{padding:36px 0;border-bottom:1px solid var(--line)}
+h1,h2.h,h3{font-family:var(--serif);font-weight:700;line-height:1.2}
+
+/* ---------- Главное ---------- */
+.top{display:grid;grid-template-columns:2fr 1fr;gap:28px;padding:28px 0 36px}
+.lead .shot{display:block;width:100%;padding:0;border:0;cursor:pointer;aspect-ratio:16/9;position:relative;overflow:hidden;background:#0d141c}
+.lead .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lead .shot.has-img svg{display:none}
+.lead .shot svg{display:block;width:100%;height:100%}
+.lead .cap{margin-top:6px;font-size:13px;color:var(--muted)}
+.lead h1{margin:14px 0 10px;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.005em}
+.lead h1 a:hover{color:var(--red)}
+.lead .dek{font:400 19px/1.5 var(--serif);color:#2c3036;max-width:60ch}
+.lead .meta{margin-top:14px}
+.side{display:flex;flex-direction:column;border-left:1px solid var(--line);padding-left:28px}
+.side article{padding:0 0 18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.side article:last-child{border:0;margin:0;padding:0}
+.side h3{margin:8px 0 6px;font-size:20px}
+.side h3 a:hover{color:var(--red)}
+.side p{font-size:15px;color:#3c4046}
+
+/* ---------- Лента и боковая колонка ---------- */
+.cols{display:grid;grid-template-columns:1.6fr 1fr;gap:40px}
+.feed{list-style:none}
+.feed li{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.feed time{font:700 15px var(--sans);color:var(--red)}
+.feed a{font:700 19px/1.3 var(--serif)}
+.feed a:hover{color:var(--red)}
+.feed .meta{display:block;margin-top:3px}
+.panel{border:1px solid var(--line);margin-bottom:24px}
+.panel h3{padding:12px 16px;background:var(--navy);color:#fff;font:700 16px var(--sans);text-transform:uppercase;letter-spacing:.03em}
+.panel ol{list-style:none;counter-reset:r}
+.panel ol li{counter-increment:r;display:grid;grid-template-columns:34px 1fr;gap:6px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.panel ol li:last-child{border:0}
+.panel ol li::before{content:counter(r);font:900 24px/1 var(--sans);color:var(--red)}
+.panel ol a{font:700 16.5px/1.35 var(--serif)}
+.panel ol a:hover{color:var(--red)}
+.weather{padding:16px}
+.weather .t{font:900 44px/1 var(--sans)}
+.weather .t small{font:600 17px var(--sans);color:var(--muted)}
+.weather p{margin-top:6px;font-size:15px}
+.weather .row{display:flex;gap:18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+
+/* ---------- Форма ---------- */
+.tipbox{background:var(--soft);border-top:5px solid var(--red);padding:clamp(24px,4vw,44px) 0 clamp(32px,5vw,56px)}
+.tipbox .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,64px);align-items:start}
+.tipbox h2{font:700 clamp(30px,4vw,48px)/1.1 var(--serif)}
+.tipbox .lede{margin-top:14px;font:400 19px/1.5 var(--serif);color:#2c3036;max-width:34ch}
+.tipbox .note{margin-top:20px;font-size:15px;color:var(--muted);max-width:40ch}
+.field{display:grid;gap:5px;margin-bottom:16px}
+.field label,.field .lab{font:700 14px var(--sans);color:#2a2e33}
+.field label i,.field .lab i{font-style:normal;font-weight:400;color:var(--muted)}
+input[type=text],select,textarea{width:100%;background:#fff;border:1px solid #b9bdc3;border-radius:0;color:var(--ink);padding:11px 12px;font:400 16px var(--sans)}
+input[type=file]{font:400 15px var(--sans)}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(208,2,27,.35);border-color:var(--red)}
+textarea{min-height:130px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23141414' stroke-width='1.8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.check{display:flex;gap:10px;align-items:flex-start;margin:4px 0 20px;font-size:15px}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--red)}
+.btn{display:inline-block;padding:14px 28px;background:var(--red);border:0;color:#fff;font:700 17px var(--sans);cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--red-dark)}
+.status{margin-top:16px;font-weight:600}
+.status:not(:empty){padding:12px 14px;background:#fff;border-left:5px solid var(--red)}
+.fineprint{margin-top:14px;font-size:14px;color:var(--muted)}
+
+/* ---------- Подвал ---------- */
+footer{background:var(--navy);color:#b6c1d1;padding:36px 0 44px;font-size:14px}
+footer .top2{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-start}
+footer .logo span{color:#fff}
+footer ul{display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none}
+footer a:hover{color:#fff;text-decoration:underline}
+footer .legal{margin-top:24px;padding-top:18px;border-top:1px solid #243a5c}
+
+/* ---------- Адаптив ---------- */
+@media (max-width:1000px){
+  .top,.cols{grid-template-columns:1fr}
+  .side{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .side article{border:0;margin:0;padding:0}
+  .tipbox .grid{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .burger{display:grid;margin-left:auto}
+  .tip-link{display:none}
+  nav{position:absolute;left:0;right:0;top:100%;display:none;background:#fff;border-bottom:1px solid var(--line)}
+  nav.open{display:block}
+  nav ul{flex-direction:column;gap:0;padding:4px var(--gutter) 12px}
+  nav a{padding:13px 0;border-bottom:1px solid var(--line);border-left:0}
+  .topbar .right{display:none}
+  .breaking .wrap{flex-wrap:wrap;gap:8px 12px}
+  .breaking time{display:none}
+}
+@media (max-width:640px){
+  .side{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .breaking a{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body id="top">
+
+<!-- Значки для превью-плиток -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 15"/><path d="M5 19c3-4 6-7 10-9"/></symbol>
+  <symbol id="i-crate" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></symbol>
+  <symbol id="i-tower" viewBox="0 0 24 24"><path d="M9 22V8l3-5 3 5v14M5 22V13h4M15 22V13h4M3 22h18"/></symbol>
+  <symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></symbol>
+  <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 5.5c4 3 9 3 13 0M5.5 18.5c4-3 9-3 13 0"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5 5 0 019.6-1A4.5 4.5 0 0117 18z"/></symbol>
+  <symbol id="i-market" viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5M3 9h18v2a3 3 0 01-6 0 3 3 0 01-6 0 3 3 0 01-6 0zM5 14v6h14v-6"/></symbol>
+</svg>
+
+<div class="topbar">
+  <div class="wrap">
+    <span id="news42-date">ВТ, 06 августа 2045 · Найт-Сити</span>
+    <div class="right">
+      <span class="w">20°C · ясно</span>
+      <a href="#tip">Прислать новость</a>
+      <a>Войти</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top" aria-label="News42, на главную"><span>NEWS</span><b>42</b></a>
+      <nav id="menu" aria-label="Разделы">
+        <ul>
+          <li><a href="#main">Главное</a></li>
+          <li><a href="#latest">Последнее</a></li>
+          <li><a href="#latest">Погода</a></li>
+          <li><a href="#tip">Прислать новость</a></li>
+        </ul>
+      </nav>
+      <a class="tip-link" href="#tip">Вам есть что рассказать?</a>
+      <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- СРОЧНО: меняйте текст и время здесь -->
+<div class="breaking" role="region" aria-label="Срочная новость">
+  <div class="wrap">
+    <span class="breaking__tag"><span class="dot"></span>Срочно</span>
+    <a href="#main">Полицейский произвол вызывает недовольство граждан. С особой жестокостью убиты несколько человек</a>
+    <time>09:05</time>
+  </div>
+</div>
+
+<main>
+  <!-- Главное -->
+  <div class="wrap" id="main">
+    <div class="top">
+      <!-- ГЛАВНАЯ НОВОСТЬ -->
+      <article class="lead">
+        <button type="button" class="shot" aria-label="Фото к новости. Нажмите, чтобы выбрать изображение">
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1420"/><stop offset="1" stop-color="#2a3446"/></linearGradient>
+              <radialGradient id="glowR" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff3b4d" stop-opacity=".85"/><stop offset="1" stop-color="#ff3b4d" stop-opacity="0"/></radialGradient>
+              <radialGradient id="glowB" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#4b8bff" stop-opacity=".85"/><stop offset="1" stop-color="#4b8bff" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect width="800" height="450" fill="url(#sky)"/>
+            <g fill="#111a26"><rect x="40" y="170" width="70" height="170"/><rect x="120" y="120" width="56" height="220"/><rect x="190" y="200" width="80" height="140"/><rect x="560" y="140" width="64" height="200"/><rect x="636" y="190" width="90" height="150"/><rect x="730" y="130" width="60" height="210"/></g>
+            <path d="M0 300h800v30H0z" fill="#1a2330"/>
+            <path d="M0 330h800v120H0z" fill="#10161f"/>
+            <path d="M0 360h800" stroke="#f1f1f1" stroke-opacity=".55" stroke-width="3" stroke-dasharray="46 30"/>
+            <g fill="#2a3341" stroke="#3a4558" stroke-width="2"><rect x="250" y="338" width="120" height="44" rx="8"/><rect x="390" y="352" width="110" height="40" rx="8" transform="rotate(-6 445 372)"/><rect x="520" y="344" width="100" height="42" rx="8" transform="rotate(5 570 365)"/></g>
+            <circle cx="300" cy="330" r="70" fill="url(#glowR)"/><circle cx="470" cy="340" r="60" fill="url(#glowB)"/><circle cx="580" cy="340" r="70" fill="url(#glowR)"/>
+            <rect x="0" y="300" width="800" height="6" fill="#000" opacity=".4"/>
+          </svg>
+        </button>
+        <span class="tag" style="margin-top:12px">Происшествия</span>
+        <h1><a href="#main">Полицейский произвол вызывает недовольство граждан. С особой жестокостью убиты несколько человек</a></h1>
+        <p class="dek">В районе Старого Китая 5 августа полицейские с особой жестокостью убили несколько членов банды "Тигриные Когти", которые, по словам женщины из бара "Ляоцзы" защищали ее от нападок клиентов. Одного из них, 25-летнего мужчину, переехали на машине. Общественность требует ответа.</p>
+        <p class="meta">09:05 · обновлено · Редакция News42</p>
+      </article>
+
+      <div class="side">
+        <article>
+          <a class="pic c-corp" href="#main" aria-hidden="true" tabindex="-1"><svg class="g" viewBox="0 0 24 24"><use href="#i-shield"/></svg></a>
+          <h3><a href="#main">Арасака сообщила о грядущем усилении безопасноти для своих клиентов.</a></h3>
+          <p>Для особо ценных клиентов планируется внедрение дополнительных мер безопасности.</p>
+          <p class="meta"><span class="tag">Корпорации</span>09:41</p>
+        </article>
+        <article>
+          <a class="pic c-bio" href="#main" aria-hidden="true" tabindex="-1"><svg class="g" viewBox="0 0 24 24"><use href="#i-leaf"/></svg></a>
+          <h3><a href="#main">Biotechnica сделала прорыв в науке</a></h3>
+          <p>Компания рассказала, что недавний эксперимент с омоложением клеток шимпанзе закончился грандиозным успехом.</p>
+          <p class="meta"><span class="tag">Корпорации</span>11:20</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- Лента и боковая колонка -->
+  <section class="block" id="latest" aria-labelledby="latest-t">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <h2 class="sec-title" id="latest-t">Последние новости</h2>
+          <ol class="feed" style="list-style:none">
+            <li><time>13:05</time><div><a href="#main">Около главного здания полиции собираются митингующие</a><span class="meta"><span class="tag">Происшествия</span></span></div></li>
+            <li><time>14:30</time><div><a href="#latest">Исследования показали, что за последний год популярность хост-клубов увеличилась на 70%</a><span class="meta"><span class="tag">Спорт</span></span></div></li>
+            <li><time>13:12</time><div><a href="#latest">В медиа вирусится видео с летающей Вакакой</a><span class="meta"><span class="tag">Город</span></span></div></li>
+            <li><time>12:00</time><div><a href="#latest">До конца вечера ожидается ясная погода</a><span class="meta"><span class="tag">Погода</span></span></div></li>
+            <li><time>10:05</time><div><a href="#latest">Метро: линия 3 будет закрыта по ночам до 20 августа</a><span class="meta"><span class="tag">Город</span></span></div></li>
+          </ol>
+        </div>
+
+        <aside aria-label="Боковая колонка">
+          <div class="panel">
+            <h3>Самое читаемое</h3>
+            <ol>
+              <li><a href="#main">Полицейский произвол</a></li>
+              <li><a href="#main">Видео с летающей Вакакой в небе набирает популярность</a></li>
+              <li><a href="#latest">Как не заработать астму живя в Найт-Сити</a></li>
+            </ol>
+          </div>
+          <div class="panel">
+            <h3>Погода в Найт-Сити</h3>
+            <div class="weather">
+              <div class="t">20°C <small>смог</small></div>
+              <p>Погода ожидается ясной до коцна дня.</p>
+              <div class="row"><span>Вечер 21°C</span><span>Ночь 19°C</span><span>Завтра 21°C</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Форма для читателей -->
+  <section class="tipbox" id="tip" aria-labelledby="tip-t">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <h2 id="tip-t">Вам есть что рассказать?</h2>
+          <p class="lede">Видели происшествие или знаете то, о чём должен узнать город? Напишите в редакцию News42.</p>
+          <p class="note">Можно отправить сообщение анонимно. Мы не публикуем данные источников без их согласия.</p>
+        </div>
+        <form id="tip-form" novalidate>
+          <div class="field">
+            <label for="t-topic">Тема</label>
+            <select id="t-topic" name="topic"><option>Происшествие</option><option>Корпорации</option><option>Город</option><option>Другое</option></select>
+          </div>
+          <div class="field"><label for="t-what">Что случилось</label><textarea id="t-what" name="what" required></textarea></div>
+          <div class="field"><label for="t-where">Где и когда <i>(необязательно)</i></label><input id="t-where" name="where" type="text"></div>
+          <div class="row2">
+            <div class="field"><label for="t-name">Ваше имя <i>(необязательно)</i></label><input id="t-name" name="fullname" type="text" autocomplete="name"></div>
+            <div class="field"><label for="t-contact">Как с вами связаться <i>(необязательно)</i></label><input id="t-contact" name="contact" type="text"></div>
+          </div>
+          <div class="field"><label for="t-file">Фото или видео <i>(необязательно)</i></label><input id="t-file" name="file" type="file" accept="image/*,video/*"></div>
+          <label class="check"><input type="checkbox" name="anon"> <span>Не называть моё имя в материале</span></label>
+          <button class="btn" type="submit">Отправить в редакцию</button>
+          <div class="status" id="tip-status" role="status" aria-live="polite"></div>
+          <p class="fineprint">Редакция читает все сообщения. Если материал важен, мы свяжемся с вами.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top2">
+      <a class="logo" href="#top" aria-label="News42, наверх"><span>NEWS</span><b>42</b></a>
+      <ul>
+        <li><a>О редакции</a></li>
+        <li><a>Контакты</a></li>
+        <li><a>Реклама</a></li>
+        <li><a>Вакансии</a></li>
+        <li><a>Правила публикации</a></li>
+        <li><a>Политика конфиденциальности</a></li>
+      </ul>
+    </div>
+    <p class="legal">© News42. Все права защищены. Новости, которые видят все.</p>
+  </div>
+</footer>
+
+<input type="file" id="picker" accept="image/*" hidden>
+
+<script>
+(function(){
+  var burger=document.querySelector('.burger'),nav=document.getElementById('menu');
+  burger.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  nav.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){nav.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+  });
+
+  // Фото главной новости
+  var shot=document.querySelector('.lead .shot'),picker=document.getElementById('picker');
+  function setShot(url){
+    var img=shot.querySelector('img');
+    if(!img){img=document.createElement('img');img.alt='Фото к новости';shot.insertBefore(img,shot.firstChild);}
+    img.src=url;
+    shot.classList.add('has-img');
+  }
+  shot.addEventListener('click',function(){picker.click();});
+  picker.addEventListener('change',function(){
+    var f=picker.files&&picker.files[0];
+    if(f){setShot(URL.createObjectURL(f));}
+  });
+  var probe=new Image();
+  probe.onload=function(){setShot('lead.jpg');};
+  probe.src='lead.jpg';
+
+  // Форма
+  var form=document.getElementById('tip-form'),status=document.getElementById('tip-status');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.elements.what.value.trim()){
+      status.textContent='Опишите, что случилось. Без этого мы не сможем проверить сообщение.';
+      return;
+    }
+    status.textContent='Сообщение принято. Номер обращения: N42-'+Math.floor(10000+Math.random()*90000)+'.';
+    form.reset();
+  });
+
+  fetch('../config.json').then(r=>r.json()).then(cfg=>{
+    var currentDate=cfg.current_date||'05.08.2045';
+    var dateEl=document.getElementById('news42-date');
+    if(dateEl){dateEl.textContent='ВТ, '+currentDate.split('.').join(' ')+' · Найт-Сити';}
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

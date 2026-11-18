@@ -1,0 +1,18 @@
+{
+  "id": "msg_013",
+  "subject": "я же просил блять",
+  "participants": ["shtanga", "sh0v", "rjjavii", "in3y", "pr4vyi", "lev4y4", "k0styashhhhka", "re_ey", "tiktik"],
+  "date": "2045-08-03",
+  "thread": [
+    { "sender": "sh0v", "timestamp": "2045-08-03 01:20", "text": "кто-то опять заходил в операционную. инструменты лежат не так" },
+    { "sender": "re_ey", "timestamp": "2045-08-03 01:25", "text": "не я" },
+    { "sender": "pr4vyi", "timestamp": "2045-08-03 01:27", "text": "не мы" },
+    { "sender": "sh0v", "timestamp": "2045-08-03 01:30", "text": "штанга" },
+    { "sender": "shtanga", "timestamp": "2045-08-03 01:45", "text": "там было тепло" },
+    { "sender": "sh0v", "timestamp": "2045-08-03 01:46", "text": "там лежал водила с фуры. я его не закончил" },
+    { "sender": "shtanga", "timestamp": "2045-08-03 01:50", "text": "я знаю. он был тёплый. мы спали вместе" },
+    { "sender": "re_ey", "timestamp": "2045-08-03 01:51", "text": "ахахахахаха" },
+    { "sender": "sh0v", "timestamp": "2045-08-03 01:52", "text": "ржавый, замок" },
+    { "sender": "rjjavii", "timestamp": "2045-08-03 01:55", "text": "уже в списке" }
+  ]
+}

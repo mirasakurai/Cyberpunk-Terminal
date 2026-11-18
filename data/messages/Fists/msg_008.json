@@ -1,0 +1,20 @@
+{
+  "id": "msg_008",
+  "subject": "штанга",
+  "participants": ["rjjavii", "shtanga"],
+  "date": "2045-07-31",
+  "thread": [
+    { "sender": "rjjavii", "timestamp": "2045-07-31 09:00", "text": "ты брал гаечный на 22" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 09:40", "text": "да" },
+    { "sender": "rjjavii", "timestamp": "2045-07-31 09:41", "text": "где он" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 09:50", "text": "в гонке" },
+    { "sender": "rjjavii", "timestamp": "2045-07-31 09:51", "text": "в каком блять" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 10:02", "text": "я че их различаю. ну у него ебало ниче такое было" },
+    { "sender": "rjjavii", "timestamp": "2045-07-31 10:03", "text": "а тело где" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 10:10", "text": "у моста" },
+    { "sender": "rjjavii", "timestamp": "2045-07-31 10:11", "text": "пиздец. сходи и забери ключ. тело в воду" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 10:15", "text": "можно я оставлю лицо себе" },
+    { "sender": "rjjavii", "timestamp": "2045-07-31 10:15", "text": "нахуя тебе лицо" },
+    { "sender": "shtanga", "timestamp": "2045-07-31 10:20", "text": "красивое" }
+  ]
+}

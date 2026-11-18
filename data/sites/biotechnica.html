@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--
+  Как вставить фотографии (две рамки в блоке отзывов):
+  1) Постоянно: положите картинки в ту же папку, где лежит этот файл, и назовите их
+     margarita.jpg  (Маргарита Лоренц)  и  rafael.jpg  (Рафаэль Ортега).
+     Откройте страницу заново, и фото встанут сами. Лучше вертикальные, примерно 800×1000.
+  2) Для быстрой проверки: нажмите на рамку на странице и выберите картинку.
+     Так фото видно только сейчас, после обновления страницы оно пропадёт.
+
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f8f4">
+<title>Biotechnica — Время на вашей стороне</title>
+<meta name="description" content="Biotechnica: регенеративная медицина, программы долголетия, биоматериалы и питание нового поколения.">
+<style>
+:root{
+  --milk:#f7f8f4; --sage:#e3e9df; --sage-2:#d3ddce; --forest:#10332a; --ink:#16231e;
+  --muted:#59655f; --mark:#6b766f; --lime:#c3ea5f; --line:#d9dfd6;
+  --serif:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;
+  --sans:"Manrope","Segoe UI",system-ui,sans-serif;
+  --gutter:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--milk);color:var(--ink);font:400 17px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--forest);outline-offset:4px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
+
+/* ---------- Шапка ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(247,248,244,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(217,223,214,.7)}
+.bar{position:relative;display:flex;align-items:center;gap:36px;height:76px}
+.logo{margin-right:auto;font:500 19px var(--sans);letter-spacing:.2em;text-decoration:none;color:var(--forest)}
+nav ul{display:flex;gap:34px;list-style:none}
+nav a{font:400 15px var(--sans);color:var(--muted);text-decoration:none;padding:6px 0;transition:color .4s}
+nav a:hover{color:var(--forest)}
+.pill{display:inline-block;padding:14px 32px;border-radius:999px;border:1px solid var(--forest);background:transparent;color:var(--forest);font:500 15px var(--sans);text-decoration:none;cursor:pointer;transition:background .5s,color .5s,box-shadow .5s,border-color .5s}
+.pill:hover{background:var(--forest);color:var(--milk)}
+.pill--sm{padding:10px 24px;font-size:14px}
+.pill--lime{background:var(--lime);border-color:var(--lime);color:var(--forest)}
+.pill--lime:hover{background:#d2f57d;border-color:#d2f57d;color:var(--forest);box-shadow:0 14px 32px -14px rgba(16,51,42,.45)}
+.burger{display:none;width:44px;height:44px;background:none;border:1px solid var(--line);border-radius:50%;cursor:pointer;place-content:center;gap:5px}
+.burger i{display:block;width:18px;height:1.5px;background:var(--forest)}
+
+/* ---------- Hero ---------- */
+.hero{overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,80px);align-items:center;min-height:calc(100vh - 76px);min-height:calc(100svh - 76px);padding:48px 0 72px}
+.hero h1{max-width:9.5em;font:300 clamp(52px,7.6vw,116px)/.98 var(--serif);letter-spacing:-.01em;color:var(--forest)}
+.hero .lede{max-width:34ch;margin:32px 0 44px;font-size:clamp(17px,1.6vw,20px);font-weight:300;color:var(--muted)}
+.orb{position:relative;justify-self:center;width:min(100%,520px);aspect-ratio:1}
+.orb::before{content:"";position:absolute;inset:0;border-radius:58% 42% 55% 45%/52% 48% 52% 48%;
+  background:
+   radial-gradient(circle at 30% 26%,rgba(255,255,255,.95) 0,rgba(255,255,255,.55) 9%,transparent 30%),
+   radial-gradient(circle at 62% 72%,rgba(120,190,150,.9),transparent 62%),
+   linear-gradient(150deg,#eef8cf,#a6d49a 52%,#4d9b7b);
+  box-shadow:0 50px 100px -40px rgba(16,51,42,.5),inset 0 -40px 70px rgba(16,51,42,.16);
+  animation:breathe 10s ease-in-out infinite}
+.orb::after{content:"";position:absolute;right:1%;bottom:7%;width:36%;aspect-ratio:1;border-radius:50%;
+  background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.8);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 20px 50px -20px rgba(16,51,42,.35);animation:breathe 10s ease-in-out infinite reverse}
+@keyframes breathe{
+  0%,100%{transform:scale(1) rotate(0);border-radius:58% 42% 55% 45%/52% 48% 52% 48%}
+  50%{transform:scale(1.045) rotate(2.5deg);border-radius:50% 50% 46% 54%/56% 44% 56% 44%}
+}
+
+/* ---------- Секции ---------- */
+.section{padding:clamp(80px,11vw,144px) 0}
+h2{font:300 clamp(34px,4.6vw,64px)/1.08 var(--serif);color:var(--forest);letter-spacing:-.005em}
+
+/* О нас */
+.about h2{max-width:16em}
+.about__text{max-width:58ch;margin-top:36px;font-size:18px;color:var(--muted)}
+.words{display:flex;flex-wrap:wrap;gap:0;margin-top:56px;list-style:none;padding-top:28px;position:relative}
+.words::before{content:"";position:absolute;left:0;top:0;width:48px;height:3px;background:var(--lime)}
+.words li{padding:0 32px;border-left:1px solid var(--line);font:400 22px var(--serif);color:var(--forest)}
+.words li:first-child{padding-left:0;border-left:0}
+
+/* Направления */
+.dirs{margin-top:56px;list-style:none;border-top:1px solid var(--line)}
+.dirs li{display:grid;grid-template-columns:1fr 1fr;gap:12px 48px;align-items:baseline;padding:34px 0;border-bottom:1px solid var(--line);transition:padding-left .5s ease,background .5s ease}
+.dirs li:hover{padding-left:22px;background:rgba(227,233,223,.55)}
+.dirs h3{font:300 clamp(28px,3.4vw,46px)/1.1 var(--serif);color:var(--forest)}
+.dirs p{max-width:44ch;color:var(--muted)}
+
+/* Клиенты */
+.clients{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(56px,7vw,88px) 0}
+.clients h2{font-size:clamp(28px,3vw,40px);margin-bottom:36px}
+.marks{display:flex;flex-wrap:wrap;gap:20px 56px;align-items:baseline;list-style:none;color:var(--mark)}
+.marks li{white-space:nowrap}
+.m1{font:italic 500 28px var(--serif);letter-spacing:.01em}
+.m2{font:600 14px var(--sans);letter-spacing:.24em;text-transform:uppercase}
+.m3{font:500 28px var(--serif)}
+.m4{font:300 20px var(--sans);letter-spacing:.14em}
+.m5{font:italic 400 30px var(--serif)}
+.m6{font:700 19px var(--sans);letter-spacing:.04em}
+
+/* Отзывы */
+.stories{background:var(--sage)}
+.story{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:clamp(32px,7vw,110px);align-items:center}
+.story+.story{margin-top:clamp(64px,9vw,120px)}
+.story--rev{grid-template-columns:1fr minmax(0,340px)}
+.story--rev .shot{order:2}
+.shot{position:relative;display:block;width:100%;aspect-ratio:4/5;padding:0;border:0;border-radius:999px 999px 14px 14px;overflow:hidden;cursor:pointer;color:var(--muted);font:inherit;
+  background:linear-gradient(170deg,#eef2e9,var(--sage-2))}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot .ph{position:absolute;inset:0;display:grid;place-content:center;gap:6px;text-align:center;padding:0 24px}
+.shot .ph b{font:500 13px var(--sans);letter-spacing:.2em}
+.shot .ph small{font:400 13px var(--sans)}
+.shot.has-img .ph{display:none}
+.quote{max-width:24em}
+.quote blockquote{font:400 clamp(26px,3.2vw,42px)/1.22 var(--serif);color:var(--forest)}
+.who{margin-top:32px}
+.who b{display:block;font:600 16px var(--sans);color:var(--ink)}
+.who span{font-size:15px;color:var(--muted)}
+
+/* Забота */
+.care{border-bottom:1px solid var(--line)}
+.care p{max-width:46ch;color:var(--muted);font-size:18px}
+.chance{position:relative;margin-top:44px;padding-top:30px;border-top:1px solid var(--line)}
+.chance::before{content:"";position:absolute;left:0;top:-2px;width:48px;height:3px;background:var(--lime)}
+.chance h3{margin-bottom:12px;font:300 clamp(28px,3.2vw,42px)/1.1 var(--serif);color:var(--forest)}
+
+/* Контакты */
+.contact{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,7vw,110px);align-items:start}
+.contact .campus{margin-top:28px;color:var(--muted)}
+.field{display:grid;gap:4px;margin-bottom:26px}
+.field label{font:500 13px var(--sans);color:var(--muted)}
+input,select,textarea{width:100%;background:transparent;border:0;border-bottom:1px solid #aeb8b0;border-radius:0;color:var(--ink);padding:10px 0;font:400 18px var(--sans);transition:border-color .4s}
+input:focus,select:focus,textarea:focus{outline:none;border-bottom-color:var(--forest);box-shadow:0 2px 0 0 var(--forest)}
+textarea{min-height:110px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2316231e' stroke-width='1.4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center}
+.fineprint{margin-top:18px;font-size:14px;color:var(--muted);max-width:46ch}
+.status{margin-top:20px;font-size:15px;color:var(--forest)}
+.status:not(:empty){padding:14px 18px;border-radius:14px;background:var(--sage)}
+
+/* Подвал */
+footer{background:var(--forest);color:#bccbc2;padding:48px 0 56px;font-size:14px}
+.foot{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center}
+.foot .motto{color:#f1f5ee;font:300 24px var(--serif)}
+.foot ul{display:flex;gap:28px;list-style:none;flex-wrap:wrap}
+
+/* ---------- Адаптив ---------- */
+@media (max-width:900px){
+  .burger{display:grid}
+  .bar .pill--sm{display:none}
+  nav{position:absolute;left:0;right:0;top:100%;display:none;background:var(--milk);border-bottom:1px solid var(--line)}
+  nav.open{display:block}
+  nav ul{flex-direction:column;gap:0;padding:6px var(--gutter) 14px}
+  nav a{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  .hero__grid{grid-template-columns:1fr;min-height:0;padding:40px 0 64px}
+  .orb{order:-1;width:min(70%,320px);justify-self:start}
+  .dirs li{grid-template-columns:1fr}
+  .story,.story--rev{grid-template-columns:1fr}
+  .story--rev .shot{order:0}
+  .shot{max-width:300px}
+  .contact{grid-template-columns:1fr}
+  .words li{padding:0 20px}
+}
+@media (max-width:520px){
+  .words{gap:10px 0}
+  .words li{font-size:19px}
+  .marks{gap:16px 36px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body id="top">
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top" aria-label="Biotechnica, на главную">biotechnica</a>
+      <nav id="menu" aria-label="Основное меню">
+        <ul>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#directions">Направления</a></li>
+          <li><a href="#clients">Клиенты</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+      </nav>
+      <a class="pill pill--sm" href="#contact">Записаться</a>
+      <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <h1 id="hero-title">Время на вашей стороне.</h1>
+          <p class="lede">Biotechnica работает с тем, что делает жизнь дольше и лучше: регенеративная медицина, питание, новые материалы.</p>
+          <a class="pill pill--lime" href="#contact">Записаться на консультацию</a>
+        </div>
+        <div class="orb" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- О нас -->
+  <section class="section about" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <h2 id="about-title">Мы работаем с самой жизнью: от клетки до урожая.</h2>
+      <p class="about__text">Biotechnica объединяет регенеративную медицину, биоинженерию и питание нового поколения. Мы обновляем клетки, возвращаем тканям молодость и выращиваем продукты, которые поддерживают результат каждый день. Это не процедура. Это новый способ жить дольше и лучше.</p>
+      <ul class="words" aria-label="Наши принципы">
+        <li>Чисто.</li><li>Безопасно.</li><li>Бессрочно.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Направления -->
+  <section class="section" id="directions" aria-labelledby="dirs-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="dirs-title">Направления</h2>
+      <ul class="dirs">
+        <li><h3>Регенеративная медицина</h3><p>Обновление клеток и тканей, возвращение организму молодости.</p></li>
+        <li><h3>Программы долголетия</h3><p>Персональные курсы, которые замедляют старение и удерживают результат.</p></li>
+        <li><h3>Биоматериалы</h3><p>Живые стерильные материалы для трансплантации и имплантатов.</p></li>
+        <li><h3>Функциональное питание</h3><p>Продукты и добавки, подобранные под ваш организм и возраст.</p></li>
+        <li><h3>Выращенные белки</h3><p>Мясо и молочные продукты без животных, со стабильным вкусом.</p></li>
+        <li><h3>Улучшенные культуры</h3><p>Урожай, который не зависит от погоды и сезона.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Клиенты -->
+  <section class="clients" id="clients" aria-labelledby="clients-title">
+    <div class="wrap">
+      <h2 id="clients-title">Нам доверяют</h2>
+      <ul class="marks">
+        <li class="m1">Мерсер Клиник</li>
+        <li class="m2">Харвест Групп</li>
+        <li class="m3">Эвергрин Резиденс</li>
+        <li class="m4">оазис ритейл</li>
+        <li class="m5">Лиора Фудс</li>
+        <li class="m6">Ортега Агро</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="section stories" aria-label="Отзывы клиентов">
+    <div class="wrap">
+      <article class="story">
+        <button type="button" class="shot" data-file="rovan.jpg" data-alt="Рован Иб" aria-label="">
+          <span class="ph"><b>ФОТО</b><small>нажмите, чтобы выбрать изображение</small></span>
+        </button>
+        <div class="quote">
+          <blockquote>«Всю жинзь был саб5.Теперь у меня 7,5 по PSL, и ХТН. Благодаря biotechnica я теперь могаю практически всех.»</blockquote>
+          <div class="who"><b>Рован Иб</b><span>Клиент программы реновации внешности, 58 лет</span></div>
+        </div>
+      </article>
+
+      <article class="story story--rev">
+        <div class="quote">
+          <blockquote>«Для нас важна предсказуемость. Биоматериалы Biotechnica приходят стерильными, с полной документацией и всегда в срок. За семь лет не было ни одного возврата.»</blockquote>
+          <div class="who"><b>Лима Ортега</b><span>Главный врач, «Мерсер Клиник»</span></div>
+        </div>
+        <button type="button" class="shot" data-file="lima.jpg" data-alt="Лима" aria-label="">
+          <span class="ph"><b>ФОТО</b><small>нажмите, чтобы выбрать изображение</small></span>
+        </button>
+      </article>
+    </div>
+  </section>
+
+  <!-- Забота -->
+  <section class="section care" id="care" aria-labelledby="care-title">
+    <div class="wrap">
+      <div class="contact">
+        <h2 id="care-title">Забота о городе</h2>
+        <div>
+          <p>Biotechnica регулярно направляет деньги на благотворительность и поддерживает городские фонды помощи.</p>
+          <div class="chance">
+            <h3>Больница «Шанс»</h3>
+            <p>Недавно Biotechnica помогла одному из пациентов больницы «Шанс». Мы не называем имён, но результат говорит сам за себя.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2 id="contact-title">Расскажите, что вам нужно</h2>
+          <p class="campus">Главный кампус: Найт-Сити, Корп-Плаза.</p>
+        </div>
+        <form id="contact-form" novalidate>
+          <div class="field"><label for="f-name">Имя</label><input id="f-name" name="fullname" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-mail">E-mail</label><input id="f-mail" name="mail" type="text" autocomplete="email" required></div>
+          <div class="field">
+            <label for="f-topic">Что вас интересует</label>
+            <select id="f-topic" name="topic">
+              <option>Регенеративная медицина</option>
+              <option>Программы долголетия</option>
+              <option>Питание</option>
+              <option>Биоматериалы для клиник</option>
+              <option>Сельское хозяйство и экология</option>
+              <option>Другое</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-msg">Сообщение</label><textarea id="f-msg" name="message"></textarea></div>
+          <button class="pill pill--lime" type="submit">Связаться с нами</button>
+          <div class="status" id="form-status" role="status" aria-live="polite"></div>
+          <p class="fineprint">Мы отвечаем в течение одного рабочего дня. Консультации для новых клиентов проходят по записи.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <p class="motto">Растём ответственно.</p>
+        <p>© Biotechnica. Все права защищены.</p>
+      </div>
+      <ul>
+        <li><a>Политика конфиденциальности</a></li>
+        <li><a>Карьера</a></li>
+        <li><a>Устойчивое развитие</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<input type="file" id="picker" accept="image/*" hidden>
+
+<script>
+(function(){
+  var burger=document.querySelector('.burger'),nav=document.getElementById('menu');
+  burger.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  nav.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){nav.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+  });
+
+  // Рамки под фото
+  var shots=Array.prototype.slice.call(document.querySelectorAll('.shot'));
+  var picker=document.getElementById('picker'),target=null;
+  function setShot(el,url){
+    var img=el.querySelector('img');
+    if(!img){
+      img=document.createElement('img');
+      img.alt=el.getAttribute('data-alt')||'';
+      el.insertBefore(img,el.firstChild);
+    }
+    img.src=url;
+    el.classList.add('has-img');
+  }
+  shots.forEach(function(el){
+    el.addEventListener('click',function(){target=el;picker.click();});
+    var probe=new Image();
+    probe.onload=function(){setShot(el,el.getAttribute('data-file'));};
+    probe.src=el.getAttribute('data-file');
+  });
+  picker.addEventListener('change',function(){
+    var f=picker.files&&picker.files[0];
+    if(f&&target){setShot(target,URL.createObjectURL(f));}
+    picker.value='';
+  });
+
+  // Форма
+  var form=document.getElementById('contact-form'),status=document.getElementById('form-status');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.elements.fullname.value.trim()||!form.elements.mail.value.trim()){
+      status.textContent='Укажите имя и e-mail, чтобы мы могли ответить.';
+      return;
+    }
+    status.textContent='Спасибо. Мы свяжемся с вами в течение одного рабочего дня.';
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<!--
+  Реквизит для настольной кампании: неофициальный путеводитель по бандам Найт-Сити, 2045 год.
+
+  1) Постоянно: положите картинки в ту же папку, где лежит этот файл, и назовите их так:
+       iron-fists.jpg   Железные кулаки
+       inquisitors.jpg  Инквизиторы
+       honkers.jpg      Хонкеры
+       scavengers.jpg   Мусорщики
+       sixth-street.jpg Шестая улица
+       tyger-claws.jpg  Тигриные когти
+     Откройте страницу заново, и фото встанут сами. Лучше вертикальные, примерно 800×1000.
+  2) Для быстрой проверки: нажмите на рамку на странице и выберите картинку.
+     Так фото видно только сейчас, после обновления страницы оно пропадёт.
+
+  Подпись под фото (рукописная) меняется прямо в файле, ищите <span class="cap">.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07080d">
+<title>Банды Найт-Сити — неофициальный путеводитель</title>
+<meta name="description" content="Неофициальный путеводитель по бандам Найт-Сити, 2045 год: кто где живёт, что о них говорят свидетели и что советует полиция.">
+<style>
+:root{
+  --bg:#07080d; --text:#dfe8f2; --muted:#8a96aa; --line:#1f2738;
+  --cyan:#05d9e8; --pink:#ff2a6d; --yellow:#f9f002;
+  --panel:rgba(9,12,21,.9);
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --display:"Russo One","Rubik Dirt",Impact,"Arial Black",sans-serif;
+  --body:"Exo 2","Segoe UI",system-ui,sans-serif;
+  --mono:"Share Tech Mono","PT Mono","Courier New",monospace;
+  --jp:"Noto Sans JP","Yu Gothic","Hiragino Sans",Meiryo,sans-serif;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg) var(--noise);color:var(--text);font:400 18px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+
+/* Скан-линии и виньетка поверх всей страницы */
+body::before{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px),radial-gradient(120% 100% at 50% 50%,transparent 60%,rgba(0,0,0,.55))}
+}
+
+/* HUD-панели */
+.hud{--c:var(--a,var(--cyan));position:relative;background:var(--panel);border:1px solid var(--line)}
+.hud::before,.hud::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--c);pointer-events:none;z-index:2}
+.hud::before{left:-2px;top:-2px;border-right:0;border-bottom:0}
+.hud::after{right:-2px;bottom:-2px;border-left:0;border-top:0}
+
+/* ---------- Шапка ---------- */
+.hero{position:relative;padding:0 0 64px;overflow:hidden;background:
+  radial-gradient(50% 60% at 15% 0%,rgba(255,42,109,.2),transparent 70%),
+  radial-gradient(45% 55% at 95% 20%,rgba(5,217,232,.16),transparent 70%)}
+.skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:360px;opacity:.75;pointer-events:none;z-index:0}
+.hero .wrap{position:relative;z-index:1}
+.ticker{position:relative;z-index:2;overflow:hidden;white-space:nowrap;background:#000;border-bottom:1px solid #2b2b18;color:var(--yellow);font:400 14px/1 var(--mono);letter-spacing:.22em;padding:10px 0}
+.ticker__track{display:inline-flex;animation:tick 45s linear infinite}
+.ticker__track span{padding-right:3em}
+@keyframes tick{to{transform:translateX(-50%)}}
+.sign-v{position:absolute;z-index:1;right:clamp(8px,4vw,56px);top:70px;writing-mode:vertical-rl;font:700 clamp(34px,5vw,64px)/1 var(--jp);letter-spacing:.22em;color:#fff;text-shadow:0 0 8px var(--pink),0 0 30px var(--pink);animation:flicker 8s infinite}
+.hero__title{position:relative;display:inline-block;padding-bottom:22px}
+h1{font:400 clamp(60px,13vw,196px)/.88 var(--display);text-transform:uppercase;color:#fff;letter-spacing:.01em;
+  text-shadow:-3px 0 var(--pink),3px 0 var(--cyan),0 0 32px rgba(5,217,232,.45);animation:glitch 7s infinite}
+@keyframes glitch{
+  0%,90%,100%{transform:none;text-shadow:-3px 0 var(--pink),3px 0 var(--cyan),0 0 32px rgba(5,217,232,.45)}
+  91%{transform:translate(4px,0) skewX(-5deg);text-shadow:-8px 0 var(--pink),8px 0 var(--cyan)}
+  93%{transform:translate(-5px,1px) skewX(3deg);text-shadow:7px 0 var(--pink),-7px 0 var(--cyan)}
+  95%{transform:translate(2px,-1px);text-shadow:-5px 0 var(--pink),5px 0 var(--cyan)}
+  97%{transform:none}
+}
+.hero__title::after{content:"";position:absolute;left:0;bottom:0;width:62%;height:6px;background:linear-gradient(90deg,var(--pink),var(--cyan));box-shadow:0 0 18px var(--pink),0 0 34px var(--cyan)}
+.year{position:absolute;right:-8%;top:4%;display:grid;place-content:center;width:clamp(92px,13vw,160px);aspect-ratio:1;border:3px solid var(--pink);border-radius:50%;background:rgba(7,8,13,.7);color:var(--pink);font:400 clamp(28px,4.6vw,56px)/1 var(--display);transform:rotate(8deg);box-shadow:0 0 18px var(--pink),inset 0 0 18px rgba(255,42,109,.5);text-shadow:0 0 12px var(--pink);animation:flicker 6s infinite}
+.sub{margin-top:36px;font:400 clamp(17px,2vw,21px)/1.4 var(--mono);color:var(--cyan);text-shadow:0 0 10px rgba(5,217,232,.6)}
+.sub::before{content:"> ";color:var(--pink)}
+.sub::after{content:"\258C";margin-left:6px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lede{max-width:58ch;margin-top:14px;font-size:20px;color:var(--text)}
+.lede strong{color:var(--yellow)}
+
+.where{--c:var(--cyan);margin-top:44px;max-width:880px;padding:20px 26px 10px}
+.where h2{font:400 22px/1 var(--mono);color:var(--cyan);margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase}
+.where h2::before{content:"// ";color:var(--pink)}
+.where ul{list-style:none}
+.where li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 24px;padding:10px 0;border-top:1px dashed #2a3348;font-size:17px}
+.where li b{color:#fff;font-weight:600}
+.where a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(5,217,232,.4)}
+.where a:hover{color:#fff;border-color:var(--pink);text-shadow:0 0 8px var(--pink)}
+
+/* Навигация */
+.stickers{position:sticky;top:0;z-index:50;background:rgba(7,8,13,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(4px)}
+.stickers ul{display:flex;gap:10px;list-style:none;overflow-x:auto;padding:10px var(--gutter);max-width:1180px;margin:0 auto;scrollbar-width:thin}
+.stickers a{display:block;flex:none;padding:8px 16px;border:1px solid var(--a);color:var(--a);background:rgba(0,0,0,.65);font:400 14px/1.2 var(--mono);text-decoration:none;text-transform:uppercase;letter-spacing:.07em;text-shadow:0 0 8px var(--a);clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);transition:background .15s,color .15s}
+.stickers a:hover{background:var(--a);color:#000;text-shadow:none}
+
+/* ---------- Банды ---------- */
+.gang{position:relative;padding:88px 0 80px;border-top:1px solid var(--line);overflow:hidden}
+.gang::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;background:radial-gradient(45% 55% at 84% 14%,var(--a),transparent 70%),radial-gradient(38% 45% at 4% 92%,var(--a),transparent 70%)}
+.gang::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--a),transparent);box-shadow:0 0 18px var(--a)}
+.gang .wrap{position:relative;z-index:1}
+.gang__bg{position:absolute;left:-1%;top:4px;white-space:nowrap;font:400 clamp(110px,19vw,270px)/.9 var(--display);text-transform:uppercase;color:transparent;-webkit-text-stroke:2px var(--a);opacity:.16;pointer-events:none;user-select:none}
+.gang h2{font:400 clamp(46px,8vw,112px)/.96 var(--display);text-transform:uppercase;color:#fff;margin-bottom:18px;text-shadow:0 0 6px var(--a),0 0 24px var(--a),0 0 58px var(--a);animation:flicker 9s infinite}
+@keyframes flicker{0%,17%,19%,23%,61%,63%,100%{opacity:1}18%{opacity:.5}21%{opacity:.8}62%{opacity:.62}}
+.slogan{display:inline-block;margin:0 0 42px;padding:7px 16px;border:1px solid currentColor;color:var(--a);font:400 clamp(17px,2.1vw,25px)/1.3 var(--mono);box-shadow:0 0 18px -4px currentColor,inset 0 0 16px -8px currentColor;text-shadow:0 0 8px currentColor}
+.grid{display:grid;grid-template-columns:minmax(0,370px) 1fr;gap:clamp(30px,6vw,84px);align-items:start}
+.gang--rev .photo{order:2}
+.polaroid{position:relative;display:block;width:100%;padding:12px 12px 54px;background:#05060a var(--noise);border:1px solid #2a3348;border-radius:6px;box-shadow:0 0 0 1px #000,0 0 38px -8px var(--a),0 26px 40px -16px #000;cursor:pointer;color:var(--text);font:inherit}
+.polaroid::before{content:"\25CF  REC  " var(--cam,"CAM");position:absolute;left:26px;top:24px;z-index:4;font:400 14px var(--mono);letter-spacing:.08em;color:#ff4b4b;text-shadow:0 0 8px #ff2a2a;animation:blink 1.6s steps(1) infinite}
+.polaroid::after{content:"NC-CCTV";position:absolute;right:16px;bottom:16px;font:400 13px var(--mono);letter-spacing:.14em;color:var(--muted)}
+.polaroid .frame{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#0b0e16;border-radius:3px}
+.polaroid .frame::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 2px,transparent 2px 4px),radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.7)),linear-gradient(135deg,var(--a),transparent 60%);mix-blend-mode:normal;opacity:.9}
+.polaroid .frame::after{content:"";position:absolute;inset:10px;z-index:4;pointer-events:none;
+  background:
+   linear-gradient(#fff,#fff) top left/18px 2px no-repeat,linear-gradient(#fff,#fff) top left/2px 18px no-repeat,
+   linear-gradient(#fff,#fff) top right/18px 2px no-repeat,linear-gradient(#fff,#fff) top right/2px 18px no-repeat,
+   linear-gradient(#fff,#fff) bottom left/18px 2px no-repeat,linear-gradient(#fff,#fff) bottom left/2px 18px no-repeat,
+   linear-gradient(#fff,#fff) bottom right/18px 2px no-repeat,linear-gradient(#fff,#fff) bottom right/2px 18px no-repeat;opacity:.7}
+.polaroid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.35) contrast(1.15) brightness(.92)}
+.polaroid .ph{position:absolute;inset:0;z-index:2;display:grid;place-content:center;gap:8px;padding:0 20px;text-align:center;color:var(--muted);background:repeating-linear-gradient(45deg,#0d111b 0 14px,#111724 14px 28px)}
+.polaroid .ph b{font:400 30px/1 var(--display);color:var(--a);text-shadow:0 0 14px var(--a);animation:flicker 5s infinite}
+.polaroid .ph code{font:400 14px var(--mono);color:var(--yellow)}
+.polaroid .ph small{font:400 14px var(--body)}
+.polaroid.has-img .ph{display:none}
+.polaroid .cap{position:absolute;left:18px;right:110px;bottom:16px;font:400 15px/1.2 var(--mono);color:var(--a);text-align:left;text-shadow:0 0 8px var(--a)}
+
+.facts{--c:var(--a);margin-top:34px;padding:12px 18px}
+.facts div{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:9px 0;border-bottom:1px dashed #2a3348;font-size:16px}
+.facts div:last-child{border:0}
+.facts dt{color:var(--muted);font:400 14px/1.6 var(--mono)}
+.facts dd{color:#fff}
+.bars{display:inline-flex;gap:4px;vertical-align:middle}
+.bars i{width:14px;height:20px;background:#1b2234;transform:skewX(-14deg)}
+.bars i.on{background:var(--a);box-shadow:0 0 10px var(--a)}
+.bars + span{margin-left:10px;color:var(--muted);font-size:15px}
+
+.text p{max-width:62ch;margin-bottom:1.05em}
+.text p:first-child{font-size:21px;line-height:1.55;color:#fff}
+.text .aside{padding:12px 16px;border-left:3px solid var(--a);background:rgba(255,255,255,.04);font-size:17px;color:var(--muted)}
+.extras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;margin-top:64px;align-items:start}
+.extras h3{font:inherit}
+
+.note{--c:var(--a);padding:20px 20px 8px}
+.note .lab{display:block;margin-bottom:16px;padding-bottom:9px;border-bottom:1px dashed #2a3348;font:400 14px/1.3 var(--mono);color:var(--c);letter-spacing:.05em}
+.note .lab::before{content:"\25C9  ПЕРЕХВАЧЕНО // ";color:var(--pink)}
+.note blockquote{margin:0 0 18px;padding:10px 14px;background:rgba(255,255,255,.045);border-left:3px solid var(--c);font:italic 400 18px/1.45 var(--body);color:#eaf6ff}
+.note cite{display:block;margin-top:8px;font:400 14px/1.3 var(--mono);font-style:normal;color:var(--c);text-shadow:0 0 8px var(--c)}
+.note cite::before{content:"// "}
+
+.clip{--c:var(--cyan);padding:0 0 20px;font:400 15px/1.6 var(--mono);color:#cfe9ee}
+.clip .head{position:relative;display:flex;justify-content:space-between;gap:10px;margin:0 0 16px;padding:10px 14px 10px 66px;background:#0b1220;border-bottom:1px solid var(--line);font:400 13px/1.3 var(--mono);color:var(--c)}
+.clip .head::before{content:"";position:absolute;left:16px;top:50%;width:9px;height:9px;border-radius:50%;background:#ff5f56;box-shadow:15px 0 #ffbd2e,30px 0 #27c93f;transform:translateY(-50%)}
+.clip p{padding:0 18px}
+.clip p b{color:#fff}
+
+.memo{--c:#4aa3ff;padding:0 0 50px;background:linear-gradient(180deg,rgba(27,58,107,.4),rgba(9,12,21,.92));font:400 15px/1.55 var(--mono)}
+.memo .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;background:#102a52;border-bottom:1px solid #2c5aa0;color:#cfe3ff;font:400 13px var(--mono)}
+.memo .bar b{font:400 22px/1 var(--display);letter-spacing:.08em;color:#fff;text-shadow:0 0 10px #4aa3ff}
+.memo .body{padding:16px 18px 0}
+.memo p{margin-bottom:10px;color:#fff}
+.memo ul{list-style:none}
+.memo li{position:relative;padding:5px 0 5px 22px;color:#cfe3ff}
+.memo li::before{content:">";position:absolute;left:0;color:var(--c);text-shadow:0 0 8px var(--c)}
+.memo .stamp{position:absolute;right:14px;bottom:14px;padding:3px 12px;border:1px solid var(--pink);color:var(--pink);font:400 14px var(--mono);letter-spacing:.14em;text-shadow:0 0 8px var(--pink);box-shadow:0 0 12px -2px var(--pink);animation:blink 1.8s steps(1) infinite}
+
+.rules{padding:80px 0 96px;border-top:1px solid var(--line)}
+.rules .poster{--c:var(--yellow);max-width:840px;margin:0 auto;padding:36px clamp(20px,5vw,52px) 40px;background:rgba(10,10,5,.92);border:3px solid var(--yellow);box-shadow:0 0 26px rgba(249,240,2,.5),inset 0 0 26px rgba(249,240,2,.18)}
+.rules h2{font:400 clamp(34px,6vw,64px)/1 var(--display);text-transform:uppercase;color:var(--yellow);text-shadow:0 0 8px var(--yellow),0 0 28px var(--yellow);margin-bottom:18px;animation:flicker 7s infinite}
+.rules ul{list-style:none}
+.rules li{position:relative;padding:12px 0 12px 36px;border-top:1px dashed rgba(249,240,2,.4);font:600 19px/1.4 var(--body);color:#fff}
+.rules li::before{content:"\00D7";position:absolute;left:4px;top:4px;font:400 32px/1.2 var(--display);color:var(--pink);text-shadow:0 0 10px var(--pink)}
+
+footer{padding:36px 0 56px;color:var(--muted);font:400 14px/1.6 var(--mono);border-top:1px solid var(--line)}
+footer p+p{margin-top:6px}
+footer .wrap::before{content:"> ";color:var(--pink)}
+
+
+@media (max-width:1100px){.sign-v{display:none}}
+@media (max-width:1000px){
+  .extras{grid-template-columns:1fr 1fr}
+  .extras .memo{grid-column:1 / -1}
+}
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .gang--rev .photo{order:0}
+  .photo{max-width:340px}
+  .year{right:0;top:-6%}
+  .where li{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .extras{grid-template-columns:1fr}
+  body{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .ticker{overflow-x:auto}
+}
+</style>
+</head>
+<body id="top">
+
+<header class="hero">
+  <svg class="skyline" viewBox="0 0 1440 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="w1" width="14" height="16" patternUnits="userSpaceOnUse"><rect x="4" y="5" width="5" height="7" fill="#05d9e8" opacity=".55"/></pattern>
+      <pattern id="w2" width="16" height="18" patternUnits="userSpaceOnUse"><rect x="5" y="6" width="5" height="7" fill="#ff2a6d" opacity=".5"/></pattern>
+      <pattern id="w3" width="12" height="14" patternUnits="userSpaceOnUse"><rect x="3" y="4" width="4" height="6" fill="#f9f002" opacity=".4"/></pattern>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <g fill="#090b13" stroke="#1d2536" stroke-width="1">
+      <rect x="0" y="200" width="110" height="160"/><rect x="110" y="140" width="80" height="220"/><rect x="190" y="230" width="120" height="130"/>
+      <rect x="310" y="120" width="90" height="240"/><rect x="400" y="190" width="130" height="170"/><rect x="530" y="80" width="100" height="280"/>
+      <rect x="630" y="180" width="110" height="180"/><rect x="740" y="150" width="90" height="210"/><rect x="830" y="220" width="140" height="140"/>
+      <rect x="970" y="100" width="100" height="260"/><rect x="1070" y="180" width="120" height="180"/><rect x="1190" y="130" width="90" height="230"/>
+      <rect x="1280" y="200" width="160" height="160"/>
+    </g>
+    <g>
+      <rect x="118" y="150" width="64" height="200" fill="url(#w2)"/><rect x="318" y="130" width="74" height="220" fill="url(#w1)"/>
+      <rect x="538" y="90" width="84" height="260" fill="url(#w3)"/><rect x="748" y="160" width="74" height="190" fill="url(#w1)"/>
+      <rect x="978" y="110" width="84" height="240" fill="url(#w2)"/><rect x="1198" y="140" width="74" height="210" fill="url(#w1)"/>
+      <rect x="408" y="200" width="114" height="150" fill="url(#w3)"/><rect x="1078" y="190" width="104" height="160" fill="url(#w3)"/>
+      <rect x="198" y="240" width="104" height="110" fill="url(#w2)"/><rect x="1288" y="210" width="140" height="140" fill="url(#w2)"/>
+    </g>
+    <g filter="url(#glow)" fill="none" stroke-width="3">
+      <rect x="548" y="120" width="64" height="14" stroke="#ff2a6d"/><rect x="990" y="140" width="60" height="10" stroke="#05d9e8"/>
+      <rect x="1214" y="170" width="6" height="56" stroke="#f9f002"/><rect x="328" y="150" width="50" height="8" stroke="#05d9e8"/>
+    </g>
+    <g stroke="#2a3348" stroke-width="2"><path d="M580 80V40M1020 100V56M360 120V84"/></g>
+    <g fill="#ff2a2a" filter="url(#glow)"><circle cx="580" cy="38" r="3"/><circle cx="1020" cy="54" r="3"/><circle cx="360" cy="82" r="3"/></g>
+  </svg>
+  <div class="sign-v" aria-hidden="true" lang="ja">ナイトシティ</div>
+  
+  <div class="ticker" aria-hidden="true"><div class="ticker__track"><span>NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // </span><span>NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // NCPD // ОПАСНАЯ ЗОНА // NCPD // НЕ ПЕРЕХОДИТЬ // </span></div></div>
+  <div class="wrap">
+    <div class="hero__title" style="margin-top:36px">
+      <h1>Банды<br>Найт-Сити</h1>
+      <div class="year" aria-label="2045 год">2045</div>
+    </div>
+    <p class="sub">Неофициальный путеводитель для тех, кто живёт здесь или собирается заглянуть.</p>
+    <p class="lede">Шесть банд делят улицы Найт-Сити. У каждой своя территория, свои правила и свои причины для насилия. Здесь собраны рассказы свидетелей, вырезки из хроники происшествий и выдержки из памяток полиции. <strong>Прочитайте это до того, как выйдете из дома после заката.</strong></p>
+
+    <div class="where hud">
+      <h2>Кто где</h2>
+      <ul>
+        <li><b>Хейвуд: промзона и доки</b><span><a href="#iron-fists">Железные кулаки</a></span></li>
+        <li><b>Южный Найт-Сити, старая военная зона</b><span><a href="#inquisitors">Инквизиторы</a></span></li>
+        <li><b>Кабуки, Уэстбрук, Маленький Китай</b><span><a href="#honkers">Хонкеры</a>, <a href="#tyger-claws">Тигриные когти</a></span></li>
+        <li><b>Джапан-таун</b><span><a href="#tyger-claws">Тигриные когти</a></span></li>
+        <li><b>Ранчо Коронадо, Новый Уэстбрук, Пасифика</b><span><a href="#sixth-street">Прауд Бойс</a></span></li>
+        <li><b>Чартер Хилл, Норт-Оукс и весь город</b><span><a href="#scavengers">Мусорщики</a></span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<nav class="stickers" aria-label="Банды">
+  <ul>
+    <li><a href="#iron-fists" style="--a:#e8344a">Железные кулаки</a></li>
+    <li><a href="#inquisitors" style="--a:#ff8a2a">Инквизиторы</a></li>
+    <li><a href="#honkers" style="--a:#c65cff">Хонкеры</a></li>
+    <li><a href="#scavengers" style="--a:#a6d63a">Мусорщики</a></li>
+    <li><a href="#sixth-street" style="--a:#6c8fff">Прауд Бойс</a></li>
+    <li><a href="#tyger-claws" style="--a:#f0bd22">Тигриные когти</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- 1. Железные кулаки -->
+  <section class="gang" id="iron-fists" style="--a:#e8344a;--cam:'CAM-01'\" aria-labelledby="g1">
+    <div class="gang__bg" aria-hidden="true">Кулаки</div>
+    <div class="wrap">
+      <h2 id="g1">Железные кулаки</h2>
+      <p class="slogan">«К чёрту плоть. Есть металл.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="iron-fists.jpg" data-alt="Железные кулаки" aria-label="Фото: Железные кулаки. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>iron-fists.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Хейвуд, доки</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Хейвуд: промзона и доки</dd></div>
+            <div><dt>Известны</dt><dd>Ритуалами, насилием, киберпсихозом</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 5 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span>одна из самых опасных</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>Это последователи хрома и модификаций тела. Для них имплант не лечение и не украшение, а способ перестать быть человеком. Тот, кто вступает в банду, прощается и с прежним лицом, и с прежней жизнью.</p>
+          <p>Их называют «людьми без лица», и не зря. На церемонии посвящения новичкам вырезают глаза и нос и вживляют светящиеся красные импланты. Ритуалы больше похожи на культ, чем на уличные порядки: это шайка головорезов-оккультистов, одержимых кибертехнологиями.</p>
+          <p>Многие со временем впадают в киберпсихоз и перестают отличать своих от чужих. Железные кулаки главенствуют в промышленной зоне Хейвуда и в доках, и это одна из самых опасных группировок Найт-Сити. Если они так обращаются друг с другом, лучше не узнавать, на что они способны с чужаками.</p>
+          <p class="aside">С Инквизиторами у них давняя война. С Мусорщиками действует шаткое перемирие: ни одна из сторон не смогла победить.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«Видел собственными глазами: один из Кулаков убил мальчишку. Просто ради смеха.»
+            <cite>случайный прохожий</cite></blockquote>
+          <blockquote>«Увидел красные огоньки там, где должны быть глаза, — разворачивайся и жди подкрепление. В доки в одиночку не ходят.»
+            <cite>Барри Льюис, офицер NCPD</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>3 февраля 2045</span></div>
+          <p><b>Хейвуд.</b> В ночь на вторник в доках сработала сигнализация на грузовом складе. Прибывший наряд обнаружил выбитые ворота, следы крови на бетоне и ни одного свидетеля. Ночной охранник пропал. В полиции не исключают причастности «Железных кулаков», но подтверждений пока нет.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>Если вы окажетесь в промзоне Хейвуда (а мы советуем не бывать там без серьёзной причины), остерегайтесь людей без лица.</p>
+            <ul>
+              <li>Не смотрите в упор и не заговаривайте.</li>
+              <li>Отходите спокойно, без резких движений.</li>
+              <li>Не пытайтесь договориться: с киберпсихом это не работает.</li>
+              <li>Отойдя на безопасное расстояние, вызовите наряд.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Инквизиторы -->
+  <section class="gang gang--rev" id="inquisitors" style="--a:#ff8a2a;--cam:'CAM-02'\" aria-labelledby="g2">
+    <div class="gang__bg" aria-hidden="true">Чистота</div>
+    <div class="wrap">
+      <h2 id="g2">Инквизиторы</h2>
+      <p class="slogan">«Остаться человеком.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="inquisitors.jpg" data-alt="Инквизиторы" aria-label="Фото: Инквизиторы. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>inquisitors.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Южный Найт-Сити</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Южный Найт-Сити, старая военная зона</dd></div>
+            <div><dt>Известны</dt><dd>Проповедями, поджогами, ненавистью к имплантам</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 4 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span>высокая</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>Не обманывайтесь названием: никакой религии за ним нет. Инквизиторы верят в превосходство плоти и в чистоту человеческой оболочки. Свою миссию они видят в том, чтобы уничтожать киберпсихов и всех, кто слишком увлёкся имплантами.</p>
+          <p>Поэтому у них давняя и непрекращающаяся война с Железными кулаками. Жертвы несут обе стороны, а вместе с ними страдают улицы, на которых идут эти бои.</p>
+          <p>Инквизиторов видят в Южном Найт-Сити и в старой военной зоне, где они окружают территории Железных кулаков и Тигриных когтей. Иногда они появляются и на севере города. Зато почти не бывают в корпоративных центрах и в богатых районах: с полицией у них отношения плохие, и не только из-за агрессии к имплантам. После себя они оставляют разрушения и пожары.</p>
+          <p>Они проповедуют прямо на улицах, а самые рьяные активисты могут перекрыть вход в клинику риппердока.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«Встали у двери и никого не пускали. Парень шёл ко мне после операции, его развернули, а потом разбили вывеску. Спорить с ними без толку.»
+            <cite>риппердок, Южный Найт-Сити</cite></blockquote>
+          <blockquote>«Приехали на поджог: стена в копоти и надпись про «чистую плоть».»
+            <cite>расчёт пожарной части</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>21 июня 2045</span></div>
+          <p><b>Южный Найт-Сити.</b> В ночь на субботу сгорело двухэтажное здание, в котором, по данным полиции, работала подпольная клиника имплантации. Огонь удалось сдержать только к утру.Пострадавших нет. Дело передано в отдел по расследованию поджогов.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>Если на вашем пути уличная проповедь или пикет:</p>
+            <ul>
+              <li>Обойдите квартал, не пытайтесь прорваться.</li>
+              <li>Не спорьте об имплантах и не показывайте свои.</li>
+              <li>Если путь к клинике перекрыт, сообщите в NCPD, не вступая в конфликт.</li>
+              <li>Почувствовали запах дыма рядом с активистами? Уходите и вызывайте пожарных.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Хонкеры -->
+  <section class="gang" id="honkers" style="--a:#c65cff;--cam:'CAM-03'\" aria-labelledby="g3">
+    <div class="gang__bg" aria-hidden="true">Рейв</div>
+    <div class="wrap">
+      <h2 id="g3">Хонкеры</h2>
+      <p class="slogan">«Ночь ещё не закончилась.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="honkers.jpg" data-alt="Хонкеры" aria-label="Фото: Хонкеры. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>honkers.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Кабуки, после рейва</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Кабуки, Уэстбрук, Маленький Китай: везде, где есть ночная жизнь</dd></div>
+            <div><dt>Известны</dt><dd>Рейвами, наркотиками, горами мусора</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 1 из 5"><i class="on"></i><i></i><i></i><i></i><i></i></span><span>низкая</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>Если на улице вы видите клоунов, не ищите цирк. Это банда Хонкеров. Её основали ещё в начале нулевых, и с тех пор они не поменяли ни облик, ни атрибутику: маски, грим и яркие тряпки.</p>
+          <p>Ничего страшного они обычно не делают. Максимальный вред городу — кучи мусора и разбитые стёкла после очередного ночного рейва. Правда, они часто торгуют наркотиками. Товар, как ни странно, высокого качества, и после него человек не валится с ног, а продолжает веселиться.</p>
+          <p>Сами Хонкеры в основном просто тусят: устраивают рейвы, агитируют прохожих присоединиться и крутятся вокруг Кабуки, Уэстбрука и Маленького Китая. Где есть живая ночная жизнь, там они обязательно найдутся.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«Утром выгребаю бутылки и конфетти. Но драк у меня с ними не было ни разу. Платят вовремя, лучше многих.»
+            <cite>владелец бара, Кабуки</cite></blockquote>
+          <blockquote>«Единственная банда, за которой мы не гоняемся. Они сами приходят в участок и просят увезти в отрезвитель.»
+            <cite>офицер NCPD</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>8 марта 2045</span></div>
+          <p><b>Кабуки.</b> Жители пожаловались на шум: рейв продолжался до рассвета. К утру на улицах осталось семь грузовиков мусора. Задержанных нет, серьёзных нарушений не зафиксировано. Один из организаторов извинился за беспокойство и пообещал убрать сам. Не убрал.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>Весёлых людей в гриме бояться не нужно, но осторожность не помешает:</p>
+            <ul>
+              <li>Не берите ничего у незнакомцев, даже если «очень чистое».</li>
+              <li>Не оставляйте напиток без присмотра.</li>
+              <li>Не уходите с рейва в одиночку поздней ночью.</li>
+              <li>Стало плохо? Сразу обратитесь к охране или в NCPD.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Мусорщики -->
+  <section class="gang gang--rev" id="scavengers" style="--a:#a6d63a;--cam:'CAM-04'\" aria-labelledby="g4">
+    <div class="gang__bg" aria-hidden="true">Товар</div>
+    <div class="wrap">
+      <h2 id="g4">Мусорщики</h2>
+      <p class="slogan">«Вы стоите ровно столько, сколько в вас вшито.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="scavengers.jpg" data-alt="Мусорщики" aria-label="Фото: Мусорщики. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>scavengers.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Чартер Хилл, склад</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Без границ. Базы в дальних промзонах: Чартер Хилл, Норт-Оукс</dd></div>
+            <div><dt>Известны</dt><dd>Похищениями, торговлей органами и имплантами</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 4 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span>высокая</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>Мусорщики воруют людей, разбирают трупы и достают импланты у всех, кто их носит, причём далеко не всегда по взаимному согласию. Они появились как следствие моды на аугментации: чем больше хрома в людях, тем больше того, что можно снять и продать.</p>
+          <p>Дело грязное и кровавое, но очень прибыльное. Мусорщики заняли нишу вторичного рынка органов и киберимплантов и стали на нём монополистами: клиентам проще заплатить, чем ввязываться в такое самим. Для Мусорщика человек — просто ходячий набор товара. Идеологии у них нет, им плевать на всё, кроме собственной шкуры и кармана.</p>
+          <p>Строгих границ у банды нет. Шайки действуют по всему городу, а базы прячутся в дальних промышленных районах, например в Чартер Хилле и Норт-Оукс. О том, что они рядом, говорят граффити и характерные метки. Единой структуры тоже нет: это мелкие группы, где лидером становится самый жестокий и беспринципный.</p>
+          <p>Прямой агрессии от них ждать не стоит. Скорее вас заведут в тихое место, подсыплют что-нибудь в стакан и аккуратно извлекут дорогую почку производства Biotechnica. Они охотятся и на законопослушных горожан, и на гангстеров из других банд, а иногда и на пациентов больниц: им помогают инсайдеры из числа врачей, фельдшеров и медсестёр, которым нужен дополнительный заработок.</p>
+          <p class="aside">С Железными кулаками у них временный мир. Логово Мусорщиков редко похоже на подпольную операционную: чаще это залитая кровью скотобойня с крюками, топорами, ножовками и ваннами со льдом.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«Приехали на вызов: тело на месте, а глаз, руки и импланта в бедре нет. Срезано аккуратно и быстро.»
+            <cite>фельдшер скорой помощи</cite></blockquote>
+          <blockquote>«Ко мне в палату три дня ходил санитар и расспрашивал про мои импланты. Я думала, он сочувствует.»
+            <cite>пациентка городской больницы</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>30 января 2045</span></div>
+          <p><b>Чартер Хилл.</b> На заброшенном складе полиция обнаружила разделочные столы, крюки и ванны со льдом. Внутри нашли личные вещи нескольких пропавших горожан. Владельцы склада не установлены. В NCPD просят всех, кто видел в районе подозрительные граффити, сообщить о них.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>Как не стать товаром:</p>
+            <ul>
+              <li>Не принимайте напитки и приглашения от незнакомцев и не уходите с ними в тихие места.</li>
+              <li>Запоминайте граффити и метки возле заброшенных зданий и сообщайте о них.</li>
+              <li>Лежите в больнице, а персонал расспрашивает про ваши импланты? Скажите охране.</li>
+              <li>В дальних промзонах не носите импланты напоказ.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Прауд Бойс -->
+  <section class="gang" id="sixth-street" style="--a:#6c8fff;--cam:'CAM-05'\" aria-labelledby="g5">
+    <div class="gang__bg" aria-hidden="true">Порядок</div>
+    <div class="wrap">
+      <h2 id="g5">Прауд Бойс</h2>
+      <p class="slogan">«Порядок наведём сами.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="sixth-street.jpg" data-alt="Прауд Бойс" aria-label="Фото: Прауд Бойс. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>sixth-street.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Пасифика, ночной патруль</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Ранчо Коронадо, Новый Уэстбрук, Пасифика</dd></div>
+            <div><dt>Известны</dt><dd>Самосудом, «патрулями», расправами над «чужаками»</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 3 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span>средняя, для «чужих» выше</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>В банде в основном ветераны прошедших боёв. Они считают, что нынешняя власть не справляется с городом, а полиция не справляется со своей работой, и берут порядок в свои руки. На деле это самосуд.</p>
+          <p>Идеология банды — агрессивный национализм, замешанный на расизме. Часть бед Найт-Сити они списывают на приезжих, особенно на выходцев из Мексики и на азиатов, и открыто верят в превосходство белых. Многие жители этих районов боятся прауд бойс сильнее, чем гангстеров из других банд.</p>
+          <p>Узнать их легко: стиль напоминает военную форму с патриотическими деталями. Солдатские ботинки, разгрузочные жилеты, наколенники, штаны карго, бейсболки со старым флагом США, звёздами, полосами и орлами. Звёзды и полосы — главный символ банды.</p>
+          <p>Основные скопления: Ранчо Коронадо, Новый Уэстбрук и Пасифика. Они дисциплинированы, вооружены и убеждены, что делают правое дело, поэтому поговорить с ними по-хорошему редко получается.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«Пришли ночью «проверить документы». Ни у кого из них нет такого права. Но стояли они так, что спорить никто не решился. Двое покупателей ушли и больше не вернулись.»
+            <cite>владелец лавки, Пасифика</cite></blockquote>
+          <blockquote>«Они думают, что помогают нам. Нет. Каждое их «наведение порядка» — ещё один пострадавший и ещё одно заявление, которое мне писать.»
+            <cite>офицер NCPD</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>12 мая 2045</span></div>
+          <p><b>Пасифика.</b> В ночь на воскресенье избит прохожий. По словам свидетелей, нападавшие называли его «чужаком» и требовали показать документы. Двое подозреваемых задержаны. Полиция напоминает: частные «проверки» документов незаконны.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>Если вы встретили вооружённый «патруль»:</p>
+            <ul>
+              <li>Не вступайте в споры и не пытайтесь переубедить: они не слушают.</li>
+              <li>Не снимайте их на камеру открыто.</li>
+              <li>Требуют документы? Спокойно отойдите и вызовите NCPD: гражданские не вправе вас задерживать.</li>
+              <li>Видели нападение? Запомните приметы и сообщите полиции.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Тигриные когти -->
+  <section class="gang gang--rev" id="tyger-claws" style="--a:#f0bd22;--cam:'CAM-06'\" aria-labelledby="g6">
+    <div class="gang__bg" aria-hidden="true">Когти</div>
+    <div class="wrap">
+      <h2 id="g6">Тигриные когти</h2>
+      <p class="slogan">«Уважение — это валюта.»</p>
+      <div class="grid">
+        <div class="photo">
+          <button type="button" class="polaroid" data-file="tyger-claws.jpg" data-alt="Тигриные когти" aria-label="Фото: Тигриные когти. Нажмите, чтобы выбрать изображение">
+            <span class="frame"><span class="ph"><b>ФОТО</b><code>tyger-claws.jpg</code><small>нажмите, чтобы выбрать изображение</small></span></span>
+            <span class="cap">Джапан-таун</span>
+          </button>
+          <dl class="facts hud">
+            <div><dt>Район</dt><dd>Джапан-таун, Уэстбрук, Кабуки, Маленький Китай</dd></div>
+            <div><dt>Известны</dt><dd>Рэкетом, контролем бизнеса, захватом территорий</dd></div>
+            <div><dt>Угроза</dt><dd><span class="bars" role="img" aria-label="Угроза: 4 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span>высокая</span></dd></div>
+          </dl>
+        </div>
+        <div class="text">
+          <p>Тигриные когти — одна из крупнейших преступных группировок Найт-Сити. Банда состоит в основном из азиатов и работает методами организованных азиатских синдикатов: китайских триад и японских кланов якудза. Она главенствует в Джапан-тауне, Уэстбруке, Кабуки и Маленьком Китае. Главная цель — сохранить власть в подконтрольных районах и, по возможности, захватить территории и бизнес конкурентов.</p>
+          <p>Подход «Когтей» деловой и напоминает якудзу. Неуважения они не терпят: конфликт даже с рядовой «шестёркой» может вызвать немедленную реакцию всей банды. Но если повода нет, группировка ведёт себя более-менее мирно. Руководство понимает, что в долгосрочной перспективе бизнес лучше войны, а оружие вместе с видимостью чести и принципов приносит больше, чем одно оружие.</p>
+          <p>Другая сторона — рядовые члены. Многие из них настоящие садисты, склонные к немотивированной агрессии: похищения, пытки и жестокие убийства для них не редкость. Молодые, наглые или просто пьяные гангстеры нередко подрывают идеологию банды: пользуются положением на её территории, задирают чужаков, провоцируют драки, грабят и убивают.</p>
+        </div>
+      </div>
+
+      <div class="extras">
+        <div class="note hud">
+          <span class="lab">Слова свидетелей</span>
+          <blockquote>«С начальством договориться можно: платишь вежливо, живёшь спокойно. А мальчишки-шестёрки хуже любого босса.»
+            <cite>владелец ресторана, Кабуки</cite></blockquote>
+          <blockquote>«Просто посмотрел не туда. Через пять минут вокруг стояло человек шесть. Спасибо, что отпустили.»
+            <cite>студент, Уэстбрук</cite></blockquote>
+        </div>
+        <div class="clip hud">
+          <div class="head"><span>ХРОНИКА ПРОИСШЕСТВИЙ</span><span>17 июля 2045</span></div>
+          <p><b>Уэстбрук.</b> У входа в ночной клуб произошла драка с участием нескольких молодых людей. Трое получили травмы. Позже владелец заведения заявил, что претензий не имеет и инцидент исчерпан. Свидетели отказались давать показания.</p>
+        </div>
+        <div class="memo hud">
+          <div class="bar"><b>NCPD</b><span>Памятка для жителей</span></div>
+          <div class="body">
+            <p>На территории Тигриных когтей:</p>
+            <ul>
+              <li>Будьте вежливы: не задирайте прохожих, не показывайте пальцем, не снимайте людей на камеру.</li>
+              <li>Задели случайно? Извинитесь и уходите.</li>
+              <li>Не вмешивайтесь в чужие разборки.</li>
+              <li>Если вам угрожают, не спорьте. Вызывайте NCPD, когда будете в безопасности.</li>
+            </ul>
+          </div>
+          <span class="stamp">ВАЖНО</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Общие правила -->
+  <section class="rules" aria-labelledby="rules-t">
+    <div class="wrap">
+      <div class="poster">
+        <h2 id="rules-t">Правила улицы</h2>
+        <ul>
+          <li>Не гуляйте одни после заката в промзонах и на окраинах.</li>
+          <li>Не выставляйте напоказ дорогие импланты и технику.</li>
+          <li>Не снимайте людей без разрешения.</li>
+          <li>Не вмешивайтесь в чужие разборки.</li>
+          <li>Опасность рядом? Сначала уходите, потом звоните в NCPD.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Неофициальный путеводитель. Составлен по рассказам жителей, записям скорой помощи и памяткам NCPD. Найт-Сити, 2045 год.</p>
+    <p>Материал не заменяет рекомендации полиции.</p>
+  </div>
+</footer>
+
+<input type="file" id="picker" accept="image/*" hidden>
+
+<script>
+(function(){
+  var shots=Array.prototype.slice.call(document.querySelectorAll('.polaroid'));
+  var picker=document.getElementById('picker'),target=null;
+  function setShot(el,url){
+    var frame=el.querySelector('.frame');
+    var img=frame.querySelector('img');
+    if(!img){
+      img=document.createElement('img');
+      img.alt=el.getAttribute('data-alt')||'';
+      frame.insertBefore(img,frame.firstChild);
+    }
+    img.src=url;
+    el.classList.add('has-img');
+  }
+  shots.forEach(function(el){
+    el.addEventListener('click',function(){target=el;picker.click();});
+    var probe=new Image();
+    probe.onload=function(){setShot(el,el.getAttribute('data-file'));};
+    probe.src=el.getAttribute('data-file');
+  });
+  picker.addEventListener('change',function(){
+    var f=picker.files&&picker.files[0];
+    if(f&&target){setShot(target,URL.createObjectURL(f));}
+    picker.value='';
+  });
+})();
+</script>
+</body>
+</html>

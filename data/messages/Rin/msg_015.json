@@ -1,0 +1,67 @@
+{
+  "id": "msg_015",
+  "subject": "ты должна это видеть",
+  "participants": [
+    "l1amm",
+    "r1n.exe"
+  ],
+  "date": "2045-05-02",
+  "thread": [
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 01:12",
+      "text": "рин"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 01:12",
+      "text": "рин"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 01:12",
+      "text": "РИН"
+    },
+    {
+      "sender": "r1n.exe",
+      "timestamp": "2045-06-02 01:15",
+      "text": "что. кто-то умер?"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-06-02 01:15",
+      "text": "я нашёл автомат с лапшой который поёт караоке"
+    },
+    {
+      "sender": "r1n.exe",
+      "timestamp": "2045-05-02 01:16",
+      "text": "...\nгде"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 01:17",
+      "text": "в джапантауне. он поет пока варит"
+    },
+    {
+      "sender": "r1n.exe",
+      "timestamp": "2045-05-02 01:17",
+      "text": "выхожу"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 01:18",
+      "text": "возьми наличку "
+    },
+    {
+      "sender": "r1n.exe",
+      "timestamp": "2045-05-02 03:41",
+      "text": "я помешала одному бомжу тебя снять",
+      "image": "data/messages/Rin/liam.jpg"
+    },
+    {
+      "sender": "l1amm",
+      "timestamp": "2045-05-02 03:41",
+      "text": "эти гребанные фанаты не дают мне жить"
+    }
+  ]
+}

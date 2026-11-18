@@ -1,0 +1,19 @@
+{
+  "correct_password": "492754",
+  "sudo_password": "N3bul0sa",
+  "username": "kryss",
+  "hostname": "DANGER-PC",
+  "startup_message": "Welcome to NOX. Type 'help' for available commands.",
+  "network_interfaces": [
+    {"name": "lo", "ip": "127.0.0.1", "mask": "255.0.0.0", "status": "UP", "mac": "00:00:00:00:00:00"},
+    {"name": "eth0", "ip": "10.42.0.15", "mask": "255.255.0.0", "status": "UP", "mac": "4A:7E:2C:91:F3:08"},
+    {"name": "wlan0", "ip": "192.168.77.42", "mask": "255.255.255.0", "status": "UP", "mac": "B8:27:EB:4D:9A:C1"},
+    {"name": "tun0", "ip": "10.8.0.2", "mask": "255.255.255.0", "status": "UP", "mac": "none"}
+  ],
+  "protected_files": {
+    "/home/operator/secret.txt": "shadow42"
+  },
+  "sudo_files": [
+    "/home/operator/cameras.feed"
+  ]
+}

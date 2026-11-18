@@ -1,0 +1,16 @@
+{
+  "id": "msg_004",
+  "subject": "#дела2",
+  "participants": ["shtanga", "sh0v", "rjjavii", "in3y", "pr4vyi", "lev4y4", "k0styashhhhka", "re_ey", "tiktik"],
+  "date": "2045-07-26",
+  "thread": [
+    { "sender": "rjjavii", "timestamp": "2045-07-26 02:30", "text": "на объездной опять стоят фуры у заправки. водилы спят в кабинах" },
+    { "sender": "k0styashhhhka", "timestamp": "2045-07-26 02:31", "text": "что везут" },
+    { "sender": "tiktik", "timestamp": "2045-07-26 02:35", "text": "номера скинь. пробью накладные" },
+    { "sender": "in3y", "timestamp": "2045-07-26 02:40", "text": "без меня не лезьте. в прошлый раз у одного был ствол под сиденьем" },
+    { "sender": "re_ey", "timestamp": "2045-07-26 02:41", "text": "и что с ним стало" },
+    { "sender": "lev4y4", "timestamp": "2045-07-26 02:43", "text": "я его тащила тросом за ави два квартала" },
+    { "sender": "rjjavii", "timestamp": "2045-07-26 02:44", "text": "в этот раз тихо. водил не трогать без нужды, а то привлечем корпов биотехники" },
+    { "sender": "re_ey", "timestamp": "2045-07-26 02:44", "text": "скучно" }
+  ]
+}

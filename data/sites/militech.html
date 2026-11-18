@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<!--
+  Как менять:
+  - Сводка (последняя новость): найдите комментарий «СВОДКА» и поправьте номер, дату и текст.
+    Текст есть в двух местах: в блоке для печати и в невидимом блоке-«распорке». Меняйте оба.
+  - Статусы складов: раздел «Представительства и склады», в конце страницы.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14171a">
+<title>Милитех — Оружие, которое работает</title>
+<meta name="description" content="Милитех: вооружение, техника, броня и кибернетика для армий, корпораций и служб безопасности.">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --ink:#101214; --coal:#14171a; --coal-2:#1c2024; --steel:#2b3035;
+  --concrete:#d4d6d4; --paper:#e8e9e6; --rule:#aeb1ae;
+  --orange:#ff6a00; --orange-text:#9c3d00; --olive:#4a5238; --muted:#4a5056;
+  --head:"Oswald","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--concrete);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--gutter)}
+
+/* ---------- Шапка ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:var(--coal);border-bottom:1px solid #000;color:#eceeea}
+.bar{position:relative;display:flex;align-items:center;gap:32px;height:64px}
+.logo{font:700 26px var(--head);letter-spacing:.14em;text-decoration:none;color:#fff;margin-right:auto}
+nav ul{display:flex;gap:30px;list-style:none}
+nav a{display:inline-block;padding:6px 0;font:500 16px var(--head);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#b8bdb8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav a:hover{color:#fff;border-color:var(--orange)}
+.badge{font:400 12px var(--mono);color:#b8bdb8;border:1px solid #3c4249;padding:6px 10px;white-space:nowrap}
+.burger{display:none;width:44px;height:44px;background:none;border:1px solid #3c4249;cursor:pointer;place-content:center;gap:5px}
+.burger i{display:block;width:20px;height:2px;background:#eceeea}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:var(--coal);color:#eceeea;overflow:hidden;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:48px 48px}
+.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);align-items:center;padding:80px 0 88px}
+.hero h1{font:700 clamp(46px,7vw,104px)/.95 var(--head);text-transform:uppercase;color:#f3f4f1;letter-spacing:.005em}
+.hero .lede{max-width:36ch;margin:28px 0 38px;font-size:clamp(18px,1.8vw,21px);color:#c3c8c3}
+.actions{display:flex;flex-wrap:wrap;gap:14px}
+.btn{display:inline-block;padding:15px 30px;border:2px solid var(--orange);background:var(--orange);color:var(--ink);font:600 17px var(--head);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:#ff8333;border-color:#ff8333}
+.btn--ghost{background:transparent;color:#f3f4f1;border-color:#5b626a}
+.btn--ghost:hover{background:transparent;border-color:var(--orange);color:var(--orange)}
+
+.passport{position:relative;justify-self:end;width:100%;max-width:470px;background:var(--paper);color:var(--ink);padding:18px 20px 20px;border-top:6px solid var(--orange)}
+.passport__top{display:flex;justify-content:space-between;font:500 12px var(--mono);color:var(--muted);margin-bottom:6px}
+.passport svg.draw{display:block;width:100%;height:auto}
+.draw *{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:square}
+.draw .dim{stroke:var(--orange-text);stroke-width:1}
+.draw text{fill:var(--orange-text);stroke:none;font:500 12px var(--mono)}
+.draw [pathLength]{stroke-dasharray:1;animation:draw 1.9s ease-out both}
+.draw .a2{animation-delay:.35s}.draw .a3{animation-delay:.7s}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.passport dl{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;margin-top:8px;font-size:15px;border-top:1px solid var(--rule);padding-top:12px}
+.passport dt{font:500 12px/1.9 var(--mono);color:var(--muted)}
+.passport dd{font-weight:600}
+.barcode{display:block;width:150px;height:34px;margin-top:14px}
+.barcode rect{fill:var(--ink)}
+.stamp{display:inline-block;border:3px solid var(--orange-text);color:var(--orange-text);padding:4px 14px;font:700 20px var(--head);letter-spacing:.12em;text-transform:uppercase;transform:rotate(-5deg);opacity:.9}
+.passport .stamp{position:absolute;right:18px;bottom:22px}
+
+/* ---------- Сводка ---------- */
+.log{background:#0b0c0d;color:#d9ddd8;border-top:1px solid #000;font:400 14px/1.6 var(--mono)}
+.log__row{display:flex;gap:16px;align-items:flex-start;padding:14px 0}
+.log__tag{flex:none;background:var(--orange);color:var(--ink);font:600 13px/1 var(--head);letter-spacing:.1em;text-transform:uppercase;padding:7px 10px}
+.log__time{flex:none;color:#8f958f}
+.log__body{position:relative;flex:1}
+.log__sizer{visibility:hidden}
+.log__text{position:absolute;left:0;top:0;right:0}
+.log__text::after{content:"\25AE";color:var(--orange);margin-left:4px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.hazard{height:12px;background:repeating-linear-gradient(-45deg,var(--ink) 0 12px,var(--orange) 12px 24px)}
+
+/* ---------- Секции ---------- */
+.section{padding:88px 0}
+.section+.section{border-top:1px solid var(--rule)}
+.section__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 32px;margin-bottom:36px}
+h2{font:600 clamp(32px,4.2vw,54px)/1.02 var(--head);text-transform:uppercase;letter-spacing:.01em}
+.lead{margin-top:10px;color:var(--muted);max-width:52ch}
+.docref{font:400 12px var(--mono);color:var(--muted)}
+
+/* Каталог */
+.tabs{display:flex;border-bottom:3px solid var(--ink);margin-bottom:28px;overflow-x:auto}
+.tab{flex:none;background:none;border:0;padding:13px 26px;font:600 18px var(--head);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff}
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prod{display:flex;flex-direction:column;gap:12px;background:var(--paper);border:1px solid var(--rule);border-left:6px solid var(--steel);padding:24px;transition:border-color .2s,box-shadow .2s}
+.prod:hover{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.prod h3{font:600 30px/1 var(--head);text-transform:uppercase;letter-spacing:.02em}
+.prod .cls{font:500 12px var(--mono);color:var(--muted)}
+.prod p{flex:1;font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 12px var(--mono);padding:4px 8px;border:1px solid var(--rule);background:#d8dad6}
+.chip--lvl{background:var(--coal);border-color:var(--coal);color:#fff}
+.btn-sm{align-self:flex-start;padding:10px 18px;border:2px solid var(--ink);background:none;color:var(--ink);font:600 15px var(--head);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s}
+.btn-sm:hover{background:var(--orange);border-color:var(--orange)}
+
+/* Допуск */
+.access{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--rule)}
+.access th,.access td{padding:18px 20px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+.access thead th{font:500 12px var(--mono);color:var(--muted);background:#dcded9;border-bottom:2px solid var(--ink)}
+.access tbody th{width:110px;font:700 40px/1 var(--head);color:var(--ink)}
+.access tbody tr:last-child th,.access tbody tr:last-child td{border-bottom:0}
+.access-foot{display:flex;flex-wrap:wrap;gap:20px 36px;align-items:center;margin-top:28px}
+.access-foot p{font-weight:600}
+
+/* Процесс */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;list-style:none;counter-reset:s;border-top:3px solid var(--ink)}
+.steps li{position:relative;padding:22px 20px 0 0;counter-increment:s}
+.steps li::before{content:counter(s);display:block;font:700 56px/1 var(--head);color:var(--orange-text);margin-bottom:10px}
+.steps h3{font:600 22px/1.1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.steps p{font-size:15px;color:var(--muted)}
+
+/* Заявление о качестве */
+.quality{background:var(--coal);color:#eceeea}
+.quality blockquote{max-width:24em;font:600 clamp(28px,4vw,50px)/1.1 var(--head);text-transform:uppercase;letter-spacing:.01em}
+.sign{margin-top:36px;display:inline-block;min-width:260px;border-top:1px solid #6b727a;padding-top:8px}
+.sign b{display:block;font:600 22px var(--head);letter-spacing:.04em}
+.sign span{font:400 12px var(--mono);color:#9aa09a}
+
+/* Заявка */
+.order{display:grid;grid-template-columns:1.5fr .5fr;gap:clamp(28px,5vw,64px);align-items:start}
+.field{display:grid;gap:6px;margin-bottom:18px}
+.field label{font:500 13px var(--mono);color:var(--muted)}
+input,select,textarea{width:100%;background:var(--paper);border:1px solid var(--rule);border-bottom:2px solid var(--ink);border-radius:0;color:var(--ink);padding:12px 14px;font:400 16px var(--body)}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--orange);outline-offset:0;border-color:var(--ink)}
+textarea{min-height:120px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23101214' stroke-width='1.8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fineprint{margin-top:14px;font-size:14px;color:var(--muted)}
+.status{margin-top:16px;font:500 14px var(--mono)}
+.status:not(:empty){padding:12px 14px;background:var(--ink);color:#fff;border-left:6px solid var(--orange)}
+.support{background:var(--paper);border:1px solid var(--rule);border-top:6px solid var(--steel);padding:22px}
+.support h3{font:600 22px var(--head);text-transform:uppercase;letter-spacing:.04em}
+.support .tel{display:block;margin:12px 0 4px;font:500 20px var(--mono);color:var(--ink)}
+.support p{font-size:15px;color:var(--muted)}
+
+/* Склады */
+.sites{list-style:none;border-top:3px solid var(--ink)}
+.sites li{display:grid;grid-template-columns:1.2fr 1fr auto;gap:8px 24px;align-items:center;padding:20px 0;border-bottom:1px solid var(--rule)}
+.sites h3{font:600 26px/1.1 var(--head);text-transform:uppercase;letter-spacing:.02em}
+.sites .where{font:400 14px var(--mono);color:var(--muted)}
+.state{justify-self:end;font:500 13px var(--mono);padding:6px 12px;border:1px solid}
+.state--ok{background:var(--olive);border-color:var(--olive);color:#fff}
+.state--warn{background:var(--orange);border-color:var(--orange);color:var(--ink)}
+.state--off{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* Подвал */
+footer{background:var(--coal);color:#aeb3ae;padding:44px 0 52px;font-size:14px}
+.foot{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center}
+.foot .motto{margin-top:4px;color:#eceeea;font:600 18px var(--head);letter-spacing:.1em;text-transform:uppercase}
+.foot ul{display:flex;gap:28px;list-style:none;flex-wrap:wrap}
+
+/* ---------- Адаптив ---------- */
+@media (max-width:1000px){
+  .badge{display:none}
+  .prods{grid-template-columns:repeat(2,1fr)}
+  .order{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr);row-gap:28px}
+}
+@media (max-width:860px){
+  .burger{display:grid}
+  nav{position:absolute;left:0;right:0;top:100%;display:none;background:var(--coal);border-bottom:1px solid #000}
+  nav.open{display:block}
+  nav ul{flex-direction:column;gap:0;padding:6px var(--gutter) 14px}
+  nav a{display:block;padding:14px 0;border-bottom:1px solid #2c3137}
+  .hero__grid{grid-template-columns:1fr;padding:48px 0 56px}
+  .passport{justify-self:start}
+  .section{padding:64px 0}
+  .sites li{grid-template-columns:1fr}
+  .state{justify-self:start}
+}
+@media (max-width:700px){
+  .prods{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;border-top:0;border-left:3px solid var(--ink)}
+  .steps li{padding:0 0 0 20px}
+  .log__row{flex-wrap:wrap;gap:8px 12px}
+  .log__body{flex-basis:100%}
+  .access thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .access,.access tbody,.access tr,.access th,.access td{display:block;width:100%}
+  .access tr{border-bottom:2px solid var(--ink);padding:8px 0}
+  .access tbody th{width:100%;padding-bottom:4px;border:0}
+  .access td{padding:8px 20px;border:0}
+  .access td::before{content:attr(data-label);display:block;font:500 12px var(--mono);color:var(--muted)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body id="top">
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top" aria-label="Милитех, на главную">MILITECH</a>
+      <nav id="menu" aria-label="Основное меню">
+        <ul>
+          <li><a href="#catalog">Каталог</a></li>
+          <li><a href="#access">Допуск</a></li>
+          <li><a href="#process">Как мы работаем</a></li>
+          <li><a href="#order">Заявка</a></li>
+        </ul>
+      </nav>
+      <span class="badge">Портал закупок · Допуск требуется</span>
+      <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <h1 id="hero-title">Оружие, которое работает.</h1>
+          <p class="lede">Поставки для армий, корпораций и служб безопасности. Полевые испытания, гарантия, сопровождение.</p>
+          <div class="actions">
+            <a class="btn" href="#catalog">Открыть каталог</a>
+            <a class="btn btn--ghost" href="#order">Подать заявку</a>
+          </div>
+        </div>
+
+        <aside class="passport" aria-label="Изделие квартала: патрульный беспилотник «Страж»">
+          <div class="passport__top"><span>ПАСПОРТ ИЗДЕЛИЯ</span><span>МК-СТР-7 / 0412</span></div>
+          <svg class="draw" viewBox="0 0 420 300" role="img" aria-label="Чертёж патрульного беспилотника Страж: корпус с четырьмя винтами и размерными линиями">
+            <!-- корпус -->
+            <rect class="a2" pathLength="1" x="165" y="125" width="90" height="50" rx="6"/>
+            <path class="a2" pathLength="1" d="M185 125V112h50v13M185 175v13h50v-13"/>
+            <circle class="a3" pathLength="1" cx="210" cy="150" r="9"/>
+            <!-- лучи -->
+            <path class="a2" pathLength="1" d="M165 135L128 98M255 135L292 98M165 165L128 202M255 165L292 202"/>
+            <!-- винты -->
+            <circle pathLength="1" cx="108" cy="78" r="38"/><circle class="a3" pathLength="1" cx="108" cy="78" r="6"/>
+            <circle pathLength="1" cx="312" cy="78" r="38"/><circle class="a3" pathLength="1" cx="312" cy="78" r="6"/>
+            <circle pathLength="1" cx="108" cy="222" r="38"/><circle class="a3" pathLength="1" cx="108" cy="222" r="6"/>
+            <circle pathLength="1" cx="312" cy="222" r="38"/><circle class="a3" pathLength="1" cx="312" cy="222" r="6"/>
+            <!-- размерные линии -->
+            <path class="dim a3" pathLength="1" d="M70 20H350M70 14V26M350 14V26"/>
+            <text x="190" y="14">640 мм</text>
+            <path class="dim a3" pathLength="1" d="M26 40V260M20 40H32M20 260H32"/>
+            <text x="34" y="154">560</text>
+          </svg>
+          <dl>
+            <dt>ИЗДЕЛИЕ</dt><dd>«Страж» МК-7</dd>
+            <dt>ЗАДАЧА</dt><dd>Патрулирование объектов</dd>
+            <dt>СТАТУС</dt><dd>Серия 7. В поставке</dd>
+          </dl>
+          <svg class="barcode" viewBox="0 0 150 34" aria-hidden="true" focusable="false">
+            <rect x="0" y="0" width="3" height="34"/><rect x="6" y="0" width="1" height="34"/><rect x="9" y="0" width="4" height="34"/>
+            <rect x="16" y="0" width="1" height="34"/><rect x="19" y="0" width="2" height="34"/><rect x="24" y="0" width="5" height="34"/>
+            <rect x="32" y="0" width="1" height="34"/><rect x="35" y="0" width="3" height="34"/><rect x="41" y="0" width="1" height="34"/>
+            <rect x="45" y="0" width="4" height="34"/><rect x="52" y="0" width="2" height="34"/><rect x="57" y="0" width="1" height="34"/>
+            <rect x="61" y="0" width="5" height="34"/><rect x="69" y="0" width="2" height="34"/><rect x="74" y="0" width="1" height="34"/>
+            <rect x="78" y="0" width="3" height="34"/><rect x="84" y="0" width="1" height="34"/><rect x="88" y="0" width="4" height="34"/>
+            <rect x="95" y="0" width="2" height="34"/><rect x="100" y="0" width="1" height="34"/><rect x="104" y="0" width="5" height="34"/>
+            <rect x="112" y="0" width="1" height="34"/><rect x="116" y="0" width="3" height="34"/><rect x="122" y="0" width="2" height="34"/>
+            <rect x="127" y="0" width="1" height="34"/><rect x="131" y="0" width="4" height="34"/><rect x="138" y="0" width="1" height="34"/>
+            <rect x="142" y="0" width="3" height="34"/><rect x="148" y="0" width="2" height="34"/>
+          </svg>
+          <span class="stamp">Проверено</span>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сводка -->
+  <section class="log" aria-label="Последняя сводка">
+    <div class="wrap">
+      <div class="log__row">
+        <span class="log__tag">Сводка №0412</span>
+        <span class="log__time" id="log-time">[05.08.2045 09:41]</span>
+        <!-- СВОДКА: меняйте текст здесь и в блоке-«распорке» ниже -->
+        <div class="log__body">
+          <div class="log__sizer" aria-hidden="true">На складе Милитех в портовом районе проведена плановая инвентаризация. Недостач не выявлено.▮</div>
+          <div class="log__text" id="log-text">На складе Милитех в портовом районе проведена плановая инвентаризация. Недостач не выявлено.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="hazard" aria-hidden="true"></div>
+
+  <!-- Каталог -->
+  <section class="section" id="catalog" aria-labelledby="catalog-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="catalog-title">Каталог</h2>
+          <p class="lead">Четыре направления. Заказ только через проверку допуска.</p>
+        </div>
+        <span class="docref">МК-КТ-07 · ред. от 03.07.2045</span>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Направления каталога">
+        <button class="tab" role="tab" id="tab-arms" aria-controls="panel-arms" aria-selected="true" type="button">Вооружение</button>
+        <button class="tab" role="tab" id="tab-tech" aria-controls="panel-tech" aria-selected="false" type="button">Техника</button>
+        <button class="tab" role="tab" id="tab-armor" aria-controls="panel-armor" aria-selected="false" type="button">Броня</button>
+        <button class="tab" role="tab" id="tab-cyber" aria-controls="panel-cyber" aria-selected="false" type="button">Кибернетика</button>
+      </div>
+
+      <div class="prods panel" role="tabpanel" id="panel-arms" aria-labelledby="tab-arms">
+        <article class="prod">
+          <span class="cls">ШТАТНОЕ ОРУЖИЕ</span><h3>Рейнджер</h3>
+          <p>Оружие для охранных подразделений.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск B</span><span class="chip">Срок: 14 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Рейнджер" data-cat="Вооружение" data-level="B">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">СТАЦИОНАРНАЯ СИСТЕМА</span><h3>Бастион</h3>
+          <p>Автоматическая система защиты периметра объекта.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск A</span><span class="chip">Срок: 30 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Бастион" data-cat="Вооружение" data-level="A">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">РАСХОДНЫЕ МАТЕРИАЛЫ</span><h3>Каскад</h3>
+          <p>Боеприпасы и комплекты обслуживания.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск C</span><span class="chip">Срок: 7 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Каскад" data-cat="Вооружение" data-level="C">Запросить КП</button>
+        </article>
+      </div>
+
+      <div class="prods panel" role="tabpanel" id="panel-tech" aria-labelledby="tab-tech">
+        <article class="prod">
+          <span class="cls">БЕСПИЛОТНИК</span><h3>Страж</h3>
+          <p>Патрульный беспилотник для охраны объектов.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск B</span><span class="chip">Срок: 21 день</span></div>
+          <button class="btn-sm" type="button" data-item="Страж" data-cat="Техника" data-level="B">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">БРОНЕТЕХНИКА</span><h3>Ломовик</h3>
+          <p>Бронированный транспортёр для личного состава.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск A</span><span class="chip">Срок: 45 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Ломовик" data-cat="Техника" data-level="A">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">ГРУЗОВАЯ ПЛАТФОРМА</span><h3>Мул</h3>
+          <p>Платформа для снабжения и перевозки грузов.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск C</span><span class="chip">Срок: 14 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Мул" data-cat="Техника" data-level="C">Запросить КП</button>
+        </article>
+      </div>
+
+      <div class="prods panel" role="tabpanel" id="panel-armor" aria-labelledby="tab-armor">
+        <article class="prod">
+          <span class="cls">ИНДИВИДУАЛЬНАЯ БРОНЯ</span><h3>Щит-3</h3>
+          <p>Броня для охраны и сопровождения.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск C</span><span class="chip">Срок: 10 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Щит-3" data-cat="Броня" data-level="C">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">ЗАЩИТНЫЙ ШЛЕМ</span><h3>К-9</h3>
+          <p>Шлем со встроенной связью.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск C</span><span class="chip">Срок: 10 дней</span></div>
+          <button class="btn-sm" type="button" data-item="К-9" data-cat="Броня" data-level="C">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">КОМПЛЕКТ СНАРЯЖЕНИЯ</span><h3>Полевой</h3>
+          <p>Комплект снаряжения на отряд.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск C</span><span class="chip">Срок: 7 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Полевой" data-cat="Броня" data-level="C">Запросить КП</button>
+        </article>
+      </div>
+
+      <div class="prods panel" role="tabpanel" id="panel-cyber" aria-labelledby="tab-cyber">
+        <article class="prod">
+          <span class="cls">МОДУЛЬ РЕАКЦИИ</span><h3>Рефлекс</h3>
+          <p>Имплантат для служебного применения.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск B</span><span class="chip">Срок: 30 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Рефлекс" data-cat="Кибернетика" data-level="B">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">УСИЛЕНИЕ КОНЕЧНОСТЕЙ</span><h3>Опора</h3>
+          <p>Укрепление конечностей для тяжёлой работы.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск B</span><span class="chip">Срок: 30 дней</span></div>
+          <button class="btn-sm" type="button" data-item="Опора" data-cat="Кибернетика" data-level="B">Запросить КП</button>
+        </article>
+        <article class="prod">
+          <span class="cls">ОПТИЧЕСКИЙ МОДУЛЬ</span><h3>Глаз</h3>
+          <p>Оптика для наблюдения и прицеливания.</p>
+          <div class="chips"><span class="chip chip--lvl">Допуск B</span><span class="chip">Срок: 21 день</span></div>
+          <button class="btn-sm" type="button" data-item="Глаз" data-cat="Кибернетика" data-level="B">Запросить КП</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Допуск -->
+  <section class="section" id="access" aria-labelledby="access-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="access-title">Допуск</h2>
+          <p class="lead">Уровень допуска определяет, что и в какие сроки вы можете заказать.</p>
+        </div>
+        <span class="docref">МК-ДП-03</span>
+      </div>
+      <table class="access">
+        <thead>
+          <tr><th scope="col">УРОВЕНЬ</th><th scope="col">КОМУ</th><th scope="col">ЧТО ДОСТУПНО</th><th scope="col">СРОКИ</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">A</th><td data-label="КОМУ">Государственные и военные структуры</td><td data-label="ЧТО ДОСТУПНО">Полный каталог</td><td data-label="СРОКИ">Приоритетные</td></tr>
+          <tr><th scope="row">B</th><td data-label="КОМУ">Корпорации и службы безопасности</td><td data-label="ЧТО ДОСТУПНО">Каталог без тяжёлых систем</td><td data-label="СРОКИ">Стандартные</td></tr>
+          <tr><th scope="row">C</th><td data-label="КОМУ">Лицензированные частные охранные компании</td><td data-label="ЧТО ДОСТУПНО">Снаряжение, броня и обслуживание</td><td data-label="СРОКИ">По очереди</td></tr>
+        </tbody>
+      </table>
+      <div class="access-foot">
+        <span class="stamp">Проверка обязательна</span>
+        <p>Частным лицам поставки не осуществляются.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как мы работаем -->
+  <section class="section" id="process" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="process-title">Как мы работаем</h2>
+          <p class="lead">От заявки до сопровождения: пять этапов, без исключений.</p>
+        </div>
+      </div>
+      <ol class="steps">
+        <li><h3>Заявка</h3><p>Вы указываете организацию, категорию и объём.</p></li>
+        <li><h3>Проверка допуска</h3><p>Служба безопасности подтверждает ваш уровень.</p></li>
+        <li><h3>Полевые испытания</h3><p>Образцы проверяются в условиях вашей задачи.</p></li>
+        <li><h3>Поставка</h3><p>Партия приходит со склада с пломбой и документами.</p></li>
+        <li><h3>Сопровождение</h3><p>Техподдержка и запчасти доступны круглосуточно.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Заявление о качестве -->
+  <section class="section quality" aria-labelledby="quality-title">
+    <div class="wrap">
+      <h2 id="quality-title" class="docref" style="font:400 12px var(--mono);text-transform:none;letter-spacing:0;color:#9aa09a;margin-bottom:20px">Заявление о качестве № 7</h2>
+      <blockquote>Каждое изделие проходит полевые испытания. Каждая партия сопровождается технической поддержкой. Мы отвечаем за то, что поставили.</blockquote>
+      <div class="sign"><b>Говард Бриггс</b><span>Г.Бриггс</span></div>
+    </div>
+  </section>
+
+  <!-- Заявка -->
+  <section class="section" id="order" aria-labelledby="order-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="order-title">Заявка на поставку</h2>
+          <p class="lead">Укажите, что нужно. Остальное мы уточним сами.</p>
+        </div>
+        <span class="docref">МК-ЗП-01</span>
+      </div>
+      <div class="order">
+        <form id="order-form" novalidate>
+          <div class="field"><label for="f-org">ОРГАНИЗАЦИЯ ИЛИ ВЕДОМСТВО</label><input id="f-org" name="org" type="text" autocomplete="organization" required></div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-level">УРОВЕНЬ ДОПУСКА</label>
+              <select id="f-level" name="level"><option>A</option><option selected>B</option><option>C</option></select>
+            </div>
+            <div class="field">
+              <label for="f-cat">КАТЕГОРИЯ ИЗДЕЛИЙ</label>
+              <select id="f-cat" name="category"><option>Вооружение</option><option>Техника</option><option>Броня</option><option>Кибернетика</option></select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="f-qty">КОЛИЧЕСТВО</label><input id="f-qty" name="qty" type="number" min="1" inputmode="numeric" placeholder="Например, 20"></div>
+            <div class="field">
+              <label for="f-term">ЖЕЛАЕМЫЙ СРОК ПОСТАВКИ</label>
+              <select id="f-term" name="term"><option>7 дней</option><option>14 дней</option><option>30 дней</option><option>45 дней</option><option selected>По согласованию</option></select>
+            </div>
+          </div>
+          <div class="field"><label for="f-contact">КОНТАКТ ОТВЕТСТВЕННОГО (E-MAIL ИЛИ КАНАЛ СВЯЗИ)</label><input id="f-contact" name="contact" type="text" required></div>
+          <div class="field"><label for="f-comment">КОММЕНТАРИЙ</label><textarea id="f-comment" name="comment"></textarea></div>
+          <button class="btn" type="submit">Отправить заявку</button>
+          <div class="status" id="order-status" role="status" aria-live="polite"></div>
+          <p class="fineprint">Заявки проходят проверку на допуск. Ответ в течение трёх рабочих дней.</p>
+        </form>
+        <aside class="support" aria-label="Техподдержка">
+          <h3>Техподдержка</h3>
+          <a class="tel" href="tel:+18005550142">1-800-555-0142</a>
+          <p>Круглосуточно, для действующих заказчиков.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Представительства и склады -->
+  <section class="section" id="sites" aria-labelledby="sites-title">
+    <div class="wrap">
+      <div class="section__head">
+        <div>
+          <h2 id="sites-title">Представительства и склады</h2>
+          <p class="lead">Статус на сегодня.</p>
+        </div>
+        <span class="docref" id="doc-ref">05.08.2045</span>
+      </div>
+      <ul class="sites">
+        <li><h3>Региональное представительство</h3><span class="where">Найт-Сити</span><span class="state state--ok">Работает</span></li>
+        <li><h3>Склад «Порт»</h3><span class="where">Портовый район</span><span class="state state--warn">Плановая инвентаризация</span></li>
+        <li><h3>Испытательный полигон</h3><span class="where">За городом</span><span class="state state--off">Закрыто для посещения</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="hazard" aria-hidden="true"></div>
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <p>© Militech International Armaments. Все права защищены.</p>
+        <p class="motto">Поставляем безопасность</p>
+      </div>
+      <ul>
+        <li><a>Политика конфиденциальности</a></li>
+        <li><a>Карьера</a></li>
+        <li><a>Пресс-центр</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Меню на телефоне
+  var burger=document.querySelector('.burger'),nav=document.getElementById('menu');
+  burger.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  nav.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){nav.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+  });
+
+  // Вкладки каталога
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels=Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  function selectTab(tab,focus){
+    tabs.forEach(function(t){
+      var on=t===tab;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+    });
+    panels.forEach(function(p){p.hidden=p.id!==tab.getAttribute('aria-controls');});
+    if(focus){tab.focus();}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selectTab(t,false);});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight'){n=tabs[(i+1)%tabs.length];}
+      if(e.key==='ArrowLeft'){n=tabs[(i-1+tabs.length)%tabs.length];}
+      if(n){e.preventDefault();selectTab(n,true);}
+    });
+  });
+  selectTab(tabs[0],false);
+
+  // «Запросить КП» подставляет изделие в заявку
+  var form=document.getElementById('order-form'),status=document.getElementById('order-status');
+  document.querySelectorAll('[data-item]').forEach(function(b){
+    b.addEventListener('click',function(){
+      form.elements.category.value=b.getAttribute('data-cat');
+      form.elements.level.value=b.getAttribute('data-level');
+      form.elements.comment.value='Запрос коммерческого предложения: '+b.getAttribute('data-item')+'.';
+      document.getElementById('order').scrollIntoView({behavior:reduce?'auto':'smooth'});
+      form.elements.org.focus({preventScroll:true});
+    });
+  });
+
+  // Заявка
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.elements.org.value.trim()||!form.elements.contact.value.trim()){
+      status.textContent='Укажите организацию и контакт ответственного.';
+      return;
+    }
+    status.textContent='Заявка МК-'+Math.floor(10000+Math.random()*90000)+' принята и передана на проверку допуска.';
+    form.reset();
+  });
+
+  // Сводка печатается один раз
+  var logEl=document.getElementById('log-text');
+  if(logEl&&!reduce){
+    var full=logEl.textContent,i=0;
+    logEl.textContent='';
+    (function tick(){
+      i+=1;
+      logEl.textContent=full.slice(0,i);
+      if(i<full.length){setTimeout(tick,28);}
+    })();
+  }
+
+  fetch('../config.json').then(r=>r.json()).then(cfg=>{
+    var currentDate=cfg.current_date||'05.08.2045';
+    var logTime=document.getElementById('log-time');
+    if(logTime){logTime.textContent='['+currentDate+' 09:41]';}
+    var docRef=document.getElementById('doc-ref');
+    if(docRef){docRef.textContent=currentDate;}
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

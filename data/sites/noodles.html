@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<!--
+  Реквизит для настольной кампании: сайт заказа еды лапшичной «Три Фонаря», Маленький Китай, Найт-Сити.
+
+  Как менять:
+  - Блюда, описания и цены: в скрипте внизу найдите const MENU и правьте прямо там.
+    spice: острота от 0 до 3, veg: true помечает вегетарианские блюда.
+  - Условия доставки: константы FREE_FROM (бесплатно от суммы) и DELIVERY_FEE (цена доставки) в том же скрипте.
+  - Районы доставки: список в форме заказа (select id="f-district").
+  - Заказ никуда не отправляется: страница только показывает номер заказа.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d1311">
+<title>Три Фонаря — лапша и доставка</title>
+<meta name="description" content="Лапшичная «Три Фонаря» в Маленьком Китае: лапша, дим-самы, горячее. Доставка по Кабуки, Уэстбруку, Маленькому Китаю и Джапан-тауну.">
+<style>
+:root{
+  --bg:#0d1311; --panel:#131c19; --panel-2:#192622; --line:#2a3a34;
+  --cream:#f3ead7; --muted:#a3b0a8; --amber:#ffb02e; --red:#e5322d; --jade:#3cc7a3;
+  --display:"Arial Black",Impact,sans-serif;
+  --body:"Segoe UI",system-ui,sans-serif;
+  --mono:ui-monospace,Consolas,monospace;
+  --cjk:"Microsoft YaHei",sans-serif;
+  --gutter:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--bg);color:var(--cream);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+
+/* ---------- Шапка ---------- */
+.site-header{position:sticky;top:0;z-index:40;background:rgba(13,19,17,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:68px}
+.logo{display:flex;align-items:baseline;gap:12px;margin-right:auto;text-decoration:none}
+.logo b{font:800 22px var(--display);letter-spacing:.01em;color:var(--cream)}
+.logo span{font:700 18px var(--cjk);color:var(--amber);text-shadow:0 0 12px rgba(255,176,46,.7)}
+nav ul{display:flex;gap:26px;list-style:none}
+nav a{font:600 16px var(--body);color:var(--muted);text-decoration:none;padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav a:hover{color:var(--cream);border-color:var(--amber)}
+.cart-btn{display:flex;align-items:center;gap:10px;padding:10px 18px;background:var(--amber);border:0;border-radius:999px;color:#1a1204;font:700 16px var(--body);cursor:pointer;transition:transform .15s,background .15s}
+.cart-btn:hover{background:#ffc15a;transform:translateY(-1px)}
+.cart-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cart-btn .n{min-width:24px;padding:1px 7px;background:#1a1204;border-radius:999px;color:var(--amber);font:500 14px/1.6 var(--mono);text-align:center}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:
+  radial-gradient(40% 60% at 85% 35%,rgba(229,50,45,.22),transparent 70%),
+  radial-gradient(35% 50% at 10% 100%,rgba(255,176,46,.12),transparent 70%)}
+.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,72px);align-items:center;padding:56px 0 64px}
+.sign{display:inline-block;margin-bottom:22px;padding:8px 18px;border:2px solid var(--amber);border-radius:10px;color:var(--amber);font:700 24px/1 var(--cjk);letter-spacing:.3em;text-shadow:0 0 10px var(--amber),0 0 26px rgba(255,176,46,.6);box-shadow:0 0 14px rgba(255,176,46,.5),inset 0 0 14px rgba(255,176,46,.3);animation:flick 8s infinite}
+@keyframes flick{0%,40%,44%,100%{opacity:1}42%{opacity:.55}43%{opacity:.9}}
+.hero h1{font:800 clamp(40px,6.2vw,84px)/1 var(--display);letter-spacing:-.01em}
+.hero .lede{max-width:44ch;margin:24px 0 30px;font-size:19px;color:#d2d8d3}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:14px 26px;border:2px solid var(--amber);border-radius:999px;background:var(--amber);color:#1a1204;font:700 17px var(--body);text-decoration:none;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn:hover{background:#ffc15a;border-color:#ffc15a}
+.btn--ghost{background:transparent;color:var(--cream);border-color:#4a5b54}
+.btn--ghost:hover{background:transparent;color:var(--amber);border-color:var(--amber)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:34px;font:400 14px var(--mono);color:var(--muted)}
+.facts span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade)}
+.bowl{justify-self:center;width:min(100%,430px)}
+.bowl svg{display:block;width:100%;height:auto;overflow:visible}
+.steam path{fill:none;stroke:rgba(243,234,215,.55);stroke-width:5;stroke-linecap:round;animation:steam 4.5s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:1.2s}.steam path:nth-child(3){animation-delay:2.4s}
+@keyframes steam{0%{opacity:0;transform:translateY(14px)}35%{opacity:.8}100%{opacity:0;transform:translateY(-26px)}}
+
+/* ---------- Меню ---------- */
+.section{padding:72px 0}
+h2{font:800 clamp(30px,4vw,46px)/1.1 var(--display);letter-spacing:-.01em}
+.section__head{margin-bottom:28px}
+.section__head p{margin-top:8px;color:var(--muted);max-width:56ch}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:26px;scrollbar-width:thin}
+.tab{flex:none;padding:10px 20px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);font:600 16px var(--body);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.tab:hover{color:var(--cream);border-color:#4a5b54}
+.tab[aria-selected="true"]{background:var(--amber);border-color:var(--amber);color:#1a1204}
+.dishes{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.dish{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:20px 0;border-bottom:1px dashed var(--line)}
+.dish__top{display:flex;align-items:baseline;gap:10px;min-width:0}
+.dish h3{font:700 19px/1.25 var(--body)}
+.dish .count{display:none;padding:0 8px;border-radius:999px;background:var(--red);color:#fff;font:500 13px/1.6 var(--mono)}
+.dish .count.on{display:inline-block}
+.dots{flex:1;min-width:20px;border-bottom:2px dotted #3a4a43;transform:translateY(-5px)}
+.price{font:500 17px var(--mono);color:var(--amber);white-space:nowrap}
+.dish p{grid-column:1;color:var(--muted);font-size:15.5px}
+.tags{grid-column:1;display:flex;align-items:center;gap:12px;margin-top:2px;font-size:13px;color:var(--muted)}
+.chili{display:inline-flex;gap:3px;vertical-align:middle}
+.chili i{width:7px;height:14px;border-radius:4px 4px 6px 6px;background:#33433c;transform:rotate(18deg)}
+.chili i.on{background:var(--red);box-shadow:0 0 6px rgba(229,50,45,.8)}
+.veg{display:inline-flex;align-items:center;gap:4px;color:var(--jade)}
+.veg svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.add{grid-column:2;grid-row:1 / span 3;display:grid;place-content:center;width:46px;height:46px;border:2px solid var(--amber);border-radius:50%;background:transparent;color:var(--amber);font:500 26px/1 var(--body);cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.add:hover{background:var(--amber);color:#1a1204;transform:scale(1.06)}
+.add.bump{animation:bump .3s}
+@keyframes bump{50%{transform:scale(1.25)}}
+
+/* ---------- Информация ---------- */
+.info{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.info__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,56px)}
+.info h3{margin-bottom:12px;font:800 22px var(--display)}
+.info p,.info li{color:#cdd5cf;font-size:16.5px}
+.info p+p{margin-top:10px}
+.info ol{padding-left:22px}
+.info li+li{margin-top:6px}
+.info .note{margin-top:14px;padding:10px 14px;border-left:3px solid var(--red);background:rgba(229,50,45,.08);font-size:15.5px}
+
+footer{padding:34px 0 48px;color:var(--muted);font-size:14.5px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 40px;justify-content:space-between}
+.foot b{color:var(--cream)}
+
+/* ---------- Корзина ---------- */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.open{opacity:1;pointer-events:auto}
+.cart{position:fixed;top:0;right:0;bottom:0;z-index:70;display:flex;flex-direction:column;width:min(440px,100%);background:var(--panel);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .3s ease;visibility:hidden}
+.cart.open{transform:none;visibility:visible}
+.cart__head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)}
+.cart__head h2{font-size:24px}
+.x{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:none;cursor:pointer;font-size:22px;line-height:1;color:var(--muted)}
+.x:hover{color:var(--cream);border-color:var(--amber)}
+.cart__body{flex:1;overflow-y:auto;padding:8px 22px 20px}
+.cart__foot{padding:16px 22px 22px;border-top:1px solid var(--line);background:var(--panel-2)}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+.empty .btn{margin-top:18px}
+.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.line b{font-weight:700;line-height:1.3}
+.line .sum{font:500 16px var(--mono);color:var(--amber)}
+.qty{display:flex;align-items:center;gap:10px;margin-top:6px}
+.qty button{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:none;cursor:pointer;font-size:18px;line-height:1}
+.qty button:hover{border-color:var(--amber);color:var(--amber)}
+.qty span{min-width:22px;text-align:center;font:500 16px var(--mono)}
+.rows{display:grid;gap:6px;margin-bottom:14px;font-size:16px}
+.rows div{display:flex;justify-content:space-between;gap:12px}
+.rows .total{padding-top:10px;border-top:1px solid var(--line);font:800 20px var(--display)}
+.rows .total span:last-child{color:var(--amber)}
+.hint{margin-bottom:12px;font-size:14.5px;color:var(--jade)}
+.cart .btn{width:100%;text-align:center}
+
+.field{display:grid;gap:5px;margin-bottom:14px}
+.field label{font:600 14px var(--body);color:var(--muted)}
+input[type=text],select,textarea{width:100%;padding:12px 13px;border:1px solid #3a4a43;border-radius:10px;background:var(--bg);color:var(--cream);font:400 16px var(--body)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,176,46,.25)}
+textarea{min-height:76px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a3b0a8' stroke-width='1.8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.err{margin:-4px 0 12px;font-size:14.5px;color:#ff8a85}
+.back{margin-bottom:14px;padding:0;border:0;background:none;color:var(--muted);font:600 15px var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.back:hover{color:var(--amber)}
+
+.paynote{margin:0 0 14px;padding:10px 14px;border-left:3px solid var(--jade);background:rgba(60,199,163,.08);font-size:15px;color:#cdd5cf}
+.modal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.72)}
+.modal[hidden]{display:none}
+.modal__card{width:min(460px,100%);padding:34px 28px 28px;border:1px solid var(--line);border-top:4px solid var(--jade);border-radius:18px;background:var(--panel);text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.6);animation:pop .28s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}}
+.modal .ok{display:grid;place-content:center;width:68px;height:68px;margin:0 auto 18px;border:3px solid var(--jade);border-radius:50%;color:var(--jade);font-size:34px;box-shadow:0 0 20px rgba(60,199,163,.5)}
+.modal h2{font-size:clamp(26px,5vw,32px)}
+.modal .big{margin:12px 0 4px;font-size:19px;color:var(--cream)}
+.modal .num{display:inline-block;margin:16px 0 12px;padding:8px 16px;border:1px dashed var(--amber);border-radius:10px;color:var(--amber);font:500 22px var(--mono)}
+.modal p{color:#cdd5cf;font-size:16px}
+.modal #d-pay{margin-top:4px}
+.modal .btn{margin-top:22px;min-width:160px}
+/* ---------- Адаптив ---------- */
+@media (max-width:900px){
+  nav{display:none}
+  .hero__grid{grid-template-columns:1fr;padding:40px 0 52px}
+  .bowl{order:-1;width:min(70%,300px);justify-self:start}
+  .dishes{grid-template-columns:1fr}
+  .info__grid{grid-template-columns:1fr}
+  .section{padding:56px 0}
+}
+@media (max-width:560px){
+  .cart{top:auto;height:92vh;height:92dvh;width:100%;border-left:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;transform:translateY(100%)}
+  .cart.open{transform:none}
+  .cart-btn .t{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body id="top">
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top" aria-label="Три Фонаря, на главную"><b>Три Фонаря</b><span lang="zh">三灯面馆</span></a>
+      <nav aria-label="Основное меню">
+        <ul>
+          <li><a href="#menu">Меню</a></li>
+          <li><a href="#info">Доставка</a></li>
+          <li><a href="#where">Где мы</a></li>
+        </ul>
+      </nav>
+      <button class="cart-btn" type="button" id="open-cart" aria-haspopup="dialog" aria-controls="cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.5l2.2 11h10.6l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+        <span class="t">Корзина</span><span class="n" id="cart-count" aria-live="polite">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <span class="sign" lang="zh" aria-hidden="true">三灯面馆</span>
+          <h1 id="hero-title">Горячая лапша, пока город не спит.</h1>
+          <p class="lede">Кухня в Маленьком Китае работает до пяти утра. Привозим лапшу, дим-самы и горячее по Кабуки, Уэстбруку, Маленькому Китаю и Джапан-тауну.</p>
+          <div class="actions">
+            <a class="btn" href="#menu">Смотреть меню</a>
+            <button class="btn btn--ghost" type="button" data-open-cart>Открыть корзину</button>
+          </div>
+          <div class="facts"><span>Открыто до 05:00</span><span>Доставка от 25 минут</span><span>Оплата курьеру при получении</span></div>
+        </div>
+        <div class="bowl" aria-hidden="true">
+          <svg viewBox="0 0 400 360" focusable="false">
+            <g class="steam"><path d="M150 120c-18-26 18-40 0-70"/><path d="M200 112c-18-26 18-40 0-70"/><path d="M250 120c-18-26 18-40 0-70"/></g>
+            <path d="M70 180h260c0 78-52 130-130 130S70 258 70 180z" fill="#e5322d"/>
+            <path d="M70 180h260c0 18-3 34-8 48H78c-5-14-8-30-8-48z" fill="#c42622"/>
+            <ellipse cx="200" cy="180" rx="130" ry="22" fill="#ffb02e"/>
+            <ellipse cx="200" cy="182" rx="116" ry="16" fill="#f3d58a"/>
+            <g fill="none" stroke="#e6b94f" stroke-width="5" stroke-linecap="round"><path d="M120 182c20-8 36 8 56 0s36 8 56 0 36 8 56 0"/><path d="M130 176c20-6 34 6 54 0s34 6 54 0"/></g>
+            <circle cx="160" cy="176" r="11" fill="#fbf4e2"/><circle cx="160" cy="176" r="5" fill="#ffb02e"/>
+            <path d="M230 170c8-10 22-10 28 0-8 8-22 8-28 0z" fill="#3cc7a3"/>
+            <path d="M118 318h164l10 20H108z" fill="#2a1a14"/>
+            <path d="M250 160L338 36" stroke="#f3ead7" stroke-width="7" stroke-linecap="round"/>
+            <path d="M268 166L350 52" stroke="#d8c9a6" stroke-width="7" stroke-linecap="round"/>
+            <path d="M118 250h164" stroke="#ffb02e" stroke-width="3" stroke-dasharray="3 10" opacity=".7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Меню -->
+  <section class="section" id="menu" aria-labelledby="menu-title">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 id="menu-title">Меню</h2>
+        <p>Все блюда готовим после заказа. Цены в эдди (€$). Оплата курьеру при получении.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Разделы меню" id="tabs"></div>
+      <div id="panels"></div>
+    </div>
+  </section>
+
+  <!-- Доставка -->
+  <section class="info section" id="info" aria-labelledby="info-title">
+    <div class="wrap">
+      <h2 id="info-title" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Как заказать и как работает доставка</h2>
+      <div class="info__grid">
+        <div>
+          <h3>Как заказать</h3>
+          <ol>
+            <li>Выберите блюда и добавьте их в корзину.</li>
+            <li>Укажите адрес и способ оплаты.</li>
+            <li>Дождитесь курьера. Мы пришлём номер заказа.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Доставка</h3>
+          <p>Доставка стоит 3 €$, при заказе от 40 €$ она бесплатная. Привозим за 25–35 минут.</p>
+          <p>Работаем в Кабуки, Уэстбруке, Маленьком Китае и Джапан-тауне. В другие районы возим по договорённости.</p>
+          <p class="note">Курьеры не ездят в Хейвуд и в доки после заката.</p>
+        </div>
+        <div id="where">
+          <h3>Где мы</h3>
+          <p>Маленький Китай, переулок Трёх Фонарей, 7. Над входом три красных фонаря, не ошибётесь.</p>
+          <p>Открыто каждый день с 12:00 до 05:00. Оплата курьеру при получении: эдди или наличные.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span><b>Три Фонаря</b> · лапшичная в Маленьком Китае</span>
+      <span>© Три Фонаря. Приятного аппетита.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Корзина -->
+<div class="scrim" id="scrim"></div>
+<aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <div class="cart__head">
+    <h2 id="cart-title">Корзина</h2>
+    <button class="x" type="button" id="close-cart" aria-label="Закрыть корзину">×</button>
+  </div>
+
+  <!-- 1. Список -->
+  <div id="view-list" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="cart__body" id="cart-items"></div>
+    <div class="cart__foot" id="cart-foot">
+      <div class="hint" id="free-hint"></div>
+      <div class="rows">
+        <div><span>Блюда</span><span id="r-sub">0 €$</span></div>
+        <div><span>Доставка</span><span id="r-del">0 €$</span></div>
+        <div class="total"><span>Итого</span><span id="r-total">0 €$</span></div>
+      </div>
+      <button class="btn" type="button" id="to-form">Оформить заказ</button>
+    </div>
+  </div>
+
+  <!-- 2. Форма -->
+  <form id="view-form" novalidate style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="cart__body">
+      <button class="back" type="button" id="back">← Вернуться к корзине</button>
+      <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
+      <div class="field">
+        <label for="f-district">Район</label>
+        <select id="f-district" name="district">
+          <option value="">Выберите район</option>
+          <option>Маленький Китай</option><option>Кабуки</option><option>Уэстбрук</option><option>Джапан-таун</option><option>Другой район (по договорённости)</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-addr">Адрес</label><input id="f-addr" name="addr" type="text" autocomplete="street-address"></div>
+      <div class="field"><label for="f-contact">Телефон или канал связи</label><input id="f-contact" name="contact" type="text" autocomplete="tel"></div>
+      <div class="field"><label for="f-note">Комментарий курьеру <span style="font-weight:400">(необязательно)</span></label><textarea id="f-note" name="note"></textarea></div>
+      <p class="paynote">Оплата курьеру при получении: эдди или наличные. Онлайн-оплаты нет.</p>
+      <div class="err" id="form-err" role="alert"></div>
+    </div>
+    <div class="cart__foot">
+      <div class="rows"><div class="total"><span>К оплате</span><span id="f-total">0 €$</span></div></div>
+      <button class="btn" type="submit">Заказать</button>
+    </div>
+  </form>
+</aside>
+
+<!-- Плашка после заказа -->
+<div class="modal" id="thanks" role="dialog" aria-modal="true" aria-labelledby="thanks-title" hidden>
+  <div class="modal__card">
+    <div class="ok" aria-hidden="true">✓</div>
+    <h2 id="thanks-title">Спасибо за заказ!</h2>
+    <p class="big">Ожидайте. Курьер привезёт его примерно через 25–35 минут.</p>
+    <div class="num" id="d-num">ТФ-00000</div>
+    <p id="d-addr"></p>
+    <p id="d-pay"></p>
+    <button class="btn" type="button" id="thanks-close">Хорошо</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ----- Меню: правьте здесь ----- */
+  var FREE_FROM=40, DELIVERY_FEE=3;
+  var MENU=[
+    {id:'noodles',title:'Лапша и рис',items:[
+      {id:'n1',name:'Лапша «Три Фонаря»',desc:'Жареная лапша с говядиной, перцем и зелёным луком.',price:14,spice:2},
+      {id:'n2',name:'Лапша дан-дан',desc:'Острая, с кунжутной пастой, свининой и арахисом.',price:12,spice:3},
+      {id:'n3',name:'Рамен с уткой',desc:'Бульон на двенадцать часов, утиная грудка и яйцо.',price:16,spice:1},
+      {id:'n4',name:'Холодная лапша с огурцом',desc:'Кунжут, чеснок и рисовый уксус.',price:9,spice:1,veg:true},
+      {id:'n5',name:'Жареный рис с креветками',desc:'Яйцо, зелёный горошек и соевый соус.',price:13,spice:0},
+      {id:'n6',name:'Рис по-сычуаньски',desc:'Овощи, чили и сычуаньский перец.',price:10,spice:2,veg:true}
+    ]},
+    {id:'dimsum',title:'Дим-самы',items:[
+      {id:'d1',name:'Сяолунбао со свининой, 6 шт.',desc:'Суп спрятан внутри. Откусывайте осторожно.',price:11,spice:0},
+      {id:'d2',name:'Цзяоцзы с креветками, 8 шт.',desc:'Тонкое тесто, сочная начинка, соус на уксусе.',price:12,spice:0},
+      {id:'d3',name:'Бао с говядиной, 3 шт.',desc:'Паровые булочки с пряной говядиной.',price:10,spice:1},
+      {id:'d4',name:'Овощные пельмени, 8 шт.',desc:'Капуста, грибы и тофу.',price:9,spice:0,veg:true},
+      {id:'d5',name:'Жареные потстикеры, 8 шт.',desc:'Хрустящее дно, мягкая верхушка, начинка из свинины.',price:11,spice:0}
+    ]},
+    {id:'hot',title:'Горячее',items:[
+      {id:'h1',name:'Курица гунбао',desc:'Арахис, сухой перец, сладко-острый соус.',price:15,spice:2},
+      {id:'h2',name:'Свинина в кисло-сладком соусе',desc:'Хрустящая корочка, ананас и перец.',price:14,spice:0},
+      {id:'h3',name:'Говядина с брокколи',desc:'Устричный соус и чеснок.',price:16,spice:0},
+      {id:'h4',name:'Утка по-пекински, четверть',desc:'С блинчиками, огурцом и соусом хойсин.',price:24,spice:0},
+      {id:'h5',name:'Тофу мапо',desc:'Острый тофу с фаршем и сычуаньским перцем.',price:12,spice:3},
+      {id:'h6',name:'Баклажаны в чесночном соусе',desc:'Мягкие, сладко-острые, с чесноком.',price:11,spice:1,veg:true}
+    ]},
+    {id:'starters',title:'Закуски и супы',items:[
+      {id:'s1',name:'Суп вонтон',desc:'Лёгкий бульон и пельмени с креветкой.',price:8,spice:0},
+      {id:'s2',name:'Кисло-острый суп',desc:'Грибы, тофу и бамбук, густой и острый.',price:8,spice:2},
+      {id:'s3',name:'Спринг-роллы, 4 шт.',desc:'Хрустящие, с овощами. Соус сладкий чили.',price:7,spice:0,veg:true},
+      {id:'s4',name:'Огурцы по-китайски',desc:'Раздавленные огурцы с чесноком и чили.',price:6,spice:1,veg:true},
+      {id:'s5',name:'Креветки в кляре, 6 шт.',desc:'Лёгкий кляр и соус из лайма.',price:12,spice:0}
+    ]},
+    {id:'drinks',title:'Напитки',items:[
+      {id:'k1',name:'Чай улун, чайник',desc:'Цветочный, на двоих.',price:5,spice:0,veg:true},
+      {id:'k2',name:'Холодный чай с лимоном',desc:'Освежает после острого.',price:4,spice:0,veg:true},
+      {id:'k3',name:'Соевое молоко',desc:'Тёплое или холодное.',price:4,spice:0,veg:true},
+      {id:'k4',name:'Имбирный лимонад',desc:'Домашний, с мятой.',price:5,spice:0,veg:true},
+      {id:'k5',name:'Пиво «Северная Звезда», 0,5 л',desc:'Светлое, холодное.',price:6,spice:0}
+    ]}
+  ];
+
+  /* ----- Состояние ----- */
+  var byId={};MENU.forEach(function(c){c.items.forEach(function(i){byId[i.id]=i;});});
+  var cart={};
+  var KEY='tri-fonarya-cart';
+  try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);Object.keys(p).forEach(function(k){if(byId[k]&&p[k]>0){cart[k]=Math.min(99,p[k]|0);}});}}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(cart));}catch(e){}}
+  function fmt(n){return n+' €$';}
+  function count(){var n=0;for(var k in cart){n+=cart[k];}return n;}
+  function sub(){var s=0;for(var k in cart){s+=byId[k].price*cart[k];}return s;}
+  function delivery(s){return(s===0||s>=FREE_FROM)?0:DELIVERY_FEE;}
+  function $(id){return document.getElementById(id);}
+
+  /* ----- Меню на странице ----- */
+  var tabsEl=$('tabs'),panelsEl=$('panels');
+  function chili(n){var h='<span class="chili" role="img" aria-label="Острота: '+n+' из 3">';for(var i=0;i<3;i++){h+='<i'+(i<n?' class="on"':'')+'></i>';}return h+'</span>';}
+  var leaf='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 15"/><path d="M5 19c3-4 6-7 10-9"/></svg>';
+  MENU.forEach(function(c,idx){
+    var t=document.createElement('button');
+    t.type='button';t.className='tab';t.setAttribute('role','tab');
+    t.id='tab-'+c.id;t.setAttribute('aria-controls','panel-'+c.id);t.textContent=c.title;
+    tabsEl.appendChild(t);
+    var pn=document.createElement('div');
+    pn.className='dishes';pn.id='panel-'+c.id;pn.setAttribute('role','tabpanel');pn.setAttribute('aria-labelledby','tab-'+c.id);
+    var html='';
+    c.items.forEach(function(i){
+      html+='<article class="dish">'+
+        '<div class="dish__top"><h3>'+i.name+'</h3><span class="count" data-count="'+i.id+'"></span><span class="dots"></span><span class="price">'+fmt(i.price)+'</span></div>'+
+        '<p>'+i.desc+'</p>'+
+        '<div class="tags">'+(i.spice>0?chili(i.spice):'')+(i.veg?'<span class="veg">'+leaf+'вегетарианское</span>':'')+'</div>'+
+        '<button class="add" type="button" data-add="'+i.id+'" aria-label="Добавить в корзину: '+i.name+'">+</button>'+
+      '</article>';
+    });
+    pn.innerHTML=html;
+    panelsEl.appendChild(pn);
+  });
+  var tabs=Array.prototype.slice.call(tabsEl.children),panels=Array.prototype.slice.call(panelsEl.children);
+  function selectTab(t,focus){
+    tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on?'true':'false');x.tabIndex=on?0:-1;});
+    panels.forEach(function(p){p.hidden=p.id!==t.getAttribute('aria-controls');});
+    if(focus){t.focus();}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selectTab(t,false);});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight'){n=tabs[(i+1)%tabs.length];}
+      if(e.key==='ArrowLeft'){n=tabs[(i-1+tabs.length)%tabs.length];}
+      if(n){e.preventDefault();selectTab(n,true);}
+    });
+  });
+  selectTab(tabs[0],false);
+
+  panelsEl.addEventListener('click',function(e){
+    var b=e.target.closest('[data-add]');
+    if(!b){return;}
+    var id=b.getAttribute('data-add');
+    cart[id]=Math.min(99,(cart[id]||0)+1);
+    b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');
+    update();
+  });
+
+  /* ----- Корзина ----- */
+  var cartEl=$('cart'),scrim=$('scrim'),lastFocus=null;
+  var vList=$('view-list'),vForm=$('view-form'),thanks=$('thanks');
+  function show(v){
+    vList.style.display=v==='list'?'flex':'none';
+    vForm.style.display=v==='form'?'flex':'none';
+    $('cart-title').textContent=v==='form'?'Оформление':'Корзина';
+  }
+  function openCart(){
+    lastFocus=document.activeElement;
+    cartEl.classList.add('open');scrim.classList.add('open');document.body.classList.add('locked');
+    setTimeout(function(){$('close-cart').focus();},60);
+  }
+  function closeCart(skipFocus){
+    cartEl.classList.remove('open');scrim.classList.remove('open');document.body.classList.remove('locked');
+    if(!skipFocus&&lastFocus&&lastFocus.focus){lastFocus.focus();}
+  }
+  function openThanks(){
+    thanks.hidden=false;document.body.classList.add('locked');
+    $('thanks-close').focus();
+  }
+  function closeThanks(){
+    thanks.hidden=true;document.body.classList.remove('locked');
+    if(lastFocus&&lastFocus.focus){lastFocus.focus();}
+  }
+  $('open-cart').addEventListener('click',openCart);
+  document.querySelectorAll('[data-open-cart]').forEach(function(b){b.addEventListener('click',openCart);});
+  $('close-cart').addEventListener('click',function(){closeCart(false);});
+  scrim.addEventListener('click',function(){closeCart(false);});
+  $('thanks-close').addEventListener('click',closeThanks);
+  thanks.addEventListener('click',function(e){if(e.target===thanks){closeThanks();}});
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape'){return;}
+    if(!thanks.hidden){closeThanks();}
+    else if(cartEl.classList.contains('open')){closeCart(false);}
+  });
+
+  function update(){
+    save();
+    var n=count(),s=sub(),d=delivery(s);
+    $('cart-count').textContent=n;
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var q=cart[el.getAttribute('data-count')]||0;
+      el.textContent='× '+q;el.classList.toggle('on',q>0);
+    });
+    var box=$('cart-items');
+    if(n===0){
+      box.innerHTML='<div class="empty"><p>В корзине пока пусто.</p><button class="btn" type="button" id="empty-go">Выбрать блюда</button></div>';
+      $('cart-foot').style.display='none';
+      var g=$('empty-go');if(g){g.addEventListener('click',function(){closeCart(true);location.hash='#menu';});}
+    }else{
+      var html='';
+      Object.keys(cart).forEach(function(k){
+        var it=byId[k],q=cart[k];
+        html+='<div class="line"><div><b>'+it.name+'</b><div class="qty">'+
+          '<button type="button" data-dec="'+k+'" aria-label="Убрать одну порцию: '+it.name+'">−</button><span>'+q+'</span>'+
+          '<button type="button" data-inc="'+k+'" aria-label="Добавить одну порцию: '+it.name+'">+</button></div></div>'+
+          '<div class="sum">'+fmt(it.price*q)+'</div></div>';
+      });
+      box.innerHTML=html;
+      $('cart-foot').style.display='block';
+      $('r-sub').textContent=fmt(s);
+      $('r-del').textContent=d===0?'бесплатно':fmt(d);
+      $('r-total').textContent=fmt(s+d);
+      $('f-total').textContent=fmt(s+d);
+      $('free-hint').textContent=s>=FREE_FROM?'Доставка бесплатная.':'Добавьте ещё на '+fmt(FREE_FROM-s)+', и доставка будет бесплатной.';
+    }
+  }
+  $('cart-items').addEventListener('click',function(e){
+    var inc=e.target.closest('[data-inc]'),dec=e.target.closest('[data-dec]');
+    if(inc){var k=inc.getAttribute('data-inc');cart[k]=Math.min(99,cart[k]+1);update();}
+    if(dec){var j=dec.getAttribute('data-dec');cart[j]-=1;if(cart[j]<=0){delete cart[j];}update();}
+  });
+  $('to-form').addEventListener('click',function(){show('form');$('f-name').focus();});
+  $('back').addEventListener('click',function(){show('list');});
+
+  /* ----- Оформление ----- */
+  vForm.addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=vForm.elements,err=$('form-err');
+    if(!f.name.value.trim()||!f.district.value||!f.addr.value.trim()||!f.contact.value.trim()){
+      err.textContent='Заполните имя, район, адрес и телефон или канал связи.';
+      return;
+    }
+    err.textContent='';
+    var s=sub(),d=delivery(s),total=s+d,num='ТФ-'+Math.floor(10000+Math.random()*90000);
+    $('d-num').textContent=num;
+    $('d-addr').textContent='Адрес: '+f.district.value+', '+f.addr.value.trim()+'.';
+    $('d-pay').textContent='Оплата курьеру при получении: '+fmt(total)+'.';
+    cart={};update();vForm.reset();show('list');
+    closeCart(true);
+    openThanks();
+  });
+
+  update();
+  show('list');
+})();
+</script>
+</body>
+</html>

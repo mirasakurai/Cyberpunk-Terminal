@@ -1,0 +1,21 @@
+{
+  "id": "msg_007",
+  "subject": "lev4y4",
+  "participants": [
+    "pr4vyi",
+    "lev4y4"
+  ],
+  "date": "2045-07-30",
+  "thread": [
+    { "sender": "lev4y4", "timestamp": "2045-07-30 16:05", "text": "ты взял мои перчатки" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-30 16:06", "text": "они на сушилке" },
+    { "sender": "lev4y4", "timestamp": "2045-07-30 16:06", "text": "на какой сушилке у нас нет сушилки" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-30 16:07", "text": "на батарее" },
+    { "sender": "lev4y4", "timestamp": "2045-07-30 16:07", "text": "они же резиновые, долбоёб" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-30 16:08", "text": "ну теперь они тёплые" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-30 23:55", "text": "шокер не держит заряд, торчок у прачечной чисто дернулся. я к ржавому" },
+    { "sender": "lev4y4", "timestamp": "2045-07-30 23:56", "text": "я с тобой" },
+    { "sender": "pr4vyi", "timestamp": "2045-07-30 23:56", "text": "да я сам" },
+    { "sender": "lev4y4", "timestamp": "2045-07-30 23:57", "text": "я с тобой" }
+  ]
+}

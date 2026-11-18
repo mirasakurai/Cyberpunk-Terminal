@@ -1,0 +1,21 @@
+{
+  "id": "msg_001",
+  "subject": "Т.",
+  "participants": [
+    "unknown_7731",
+    "r1n.exe"
+  ],
+  "date": "2045-10-18",
+  "thread": [
+    {
+      "sender": "unknown_7731",
+      "timestamp": "2045-08-04 01:12",
+      "text": "Напоминаю. Суббота, 23:00. Городское кладбище."
+    },
+    {
+      "sender": "r1n.exe",
+      "timestamp": "2045-08-04 02:45",
+      "text": "буду"
+    }
+  ]
+}
